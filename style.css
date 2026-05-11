@@ -17,7 +17,6 @@ body {
   padding: 18px 16px 95px;
 }
 
-/* 頂部 */
 .top-bar {
   display: flex;
   justify-content: space-between;
@@ -56,7 +55,6 @@ body {
   box-shadow: 0 8px 20px rgba(244, 114, 182, 0.16);
 }
 
-/* 目前存款 */
 .balance-card {
   background: linear-gradient(135deg, #fb7185, #f9a8d4, #c4b5fd);
   color: white;
@@ -102,15 +100,6 @@ body {
   font-size: 21px;
 }
 
-.income-card {
-  background: rgba(236, 253, 245, 0.28);
-}
-
-.expense-card {
-  background: rgba(255, 241, 242, 0.28);
-}
-
-/* 卡片共用 */
 .goal-card,
 .add-card,
 .record-card,
@@ -144,7 +133,6 @@ body {
   font-size: 13px;
 }
 
-/* 存錢目標 */
 .goal-inputs {
   display: grid;
   gap: 10px;
@@ -173,7 +161,6 @@ body {
   transition: 0.3s;
 }
 
-/* 表單 */
 .type-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -223,23 +210,20 @@ button {
   box-shadow: 0 10px 20px rgba(244, 114, 182, 0.22);
 }
 
-.goal-inputs button:hover,
-.add-btn:hover,
-.carrier-btn:hover,
-.scan-btn:hover {
-  transform: translateY(-1px);
+.stop-btn {
+  width: 100%;
+  margin-top: 12px;
+  padding: 15px;
+  font-size: 16px;
+  color: #ec4899;
+  background: #fce7f3;
 }
 
-/* 交易紀錄 */
 .clear-btn {
   padding: 10px 14px;
   background: #fce7f3;
   color: #ec4899;
   font-size: 14px;
-}
-
-.clear-btn:hover {
-  background: #fbcfe8;
 }
 
 ul {
@@ -248,7 +232,8 @@ ul {
   margin: 18px 0 0;
 }
 
-.record-item {
+.record-item,
+.invoice-item {
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 12px;
@@ -269,16 +254,20 @@ ul {
   border-left-color: #fda4af;
 }
 
-.record-main {
+.record-main,
+.invoice-main {
   font-size: 16px;
   font-weight: 900;
   color: #374151;
+  word-break: break-all;
 }
 
-.record-sub {
+.record-sub,
+.invoice-sub {
   margin-top: 6px;
   color: #9ca3af;
   font-size: 13px;
+  line-height: 1.5;
 }
 
 .money-income {
@@ -289,15 +278,12 @@ ul {
   color: #fb7185;
 }
 
-.delete-btn {
+.delete-btn,
+.invoice-delete-btn {
   padding: 10px 12px;
   background: #fda4af;
   color: white;
   font-size: 14px;
-}
-
-.delete-btn:hover {
-  background: #fb7185;
 }
 
 .empty {
@@ -309,7 +295,6 @@ ul {
   border-radius: 18px;
 }
 
-/* 發票載具 */
 .carrier-box {
   margin-top: 16px;
 }
@@ -334,19 +319,6 @@ ul {
 
 .scan-box {
   margin-top: 18px;
-}
-
-.stop-btn {
-  width: 100%;
-  margin-top: 12px;
-  padding: 15px;
-  font-size: 16px;
-  color: #ec4899;
-  background: #fce7f3;
-}
-
-.stop-btn:hover {
-  background: #fbcfe8;
 }
 
 #scannerVideo {
@@ -383,44 +355,6 @@ ul {
   color: #ec4899;
 }
 
-.invoice-item {
-  background: #fffafc;
-  border: 2px solid #fce7f3;
-  border-left: 8px solid #f9a8d4;
-  border-radius: 18px;
-  padding: 14px;
-  margin-bottom: 10px;
-}
-
-.invoice-main {
-  font-weight: 900;
-  color: #374151;
-  word-break: break-all;
-}
-
-.invoice-sub {
-  margin-top: 5px;
-  color: #9ca3af;
-  font-size: 13px;
-  line-height: 1.5;
-}
-
-.invoice-delete-btn {
-  margin-top: 10px;
-  padding: 8px 12px;
-  border-radius: 12px;
-  background: #fda4af;
-  color: white;
-  border: none;
-  font-weight: 800;
-  cursor: pointer;
-}
-
-.invoice-delete-btn:hover {
-  background: #fb7185;
-}
-
-/* 底部導覽 */
 .bottom-nav {
   position: fixed;
   left: 50%;
@@ -447,7 +381,6 @@ ul {
   color: #ec4899;
 }
 
-/* 桌機版 */
 @media (min-width: 700px) {
   body {
     background: linear-gradient(135deg, #fdf2f8, #fff7ed, #eff6ff);
