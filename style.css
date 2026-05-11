@@ -210,6 +210,13 @@ button {
   box-shadow: 0 10px 20px rgba(244, 114, 182, 0.22);
 }
 
+.goal-inputs button:hover,
+.add-btn:hover,
+.carrier-btn:hover,
+.scan-btn:hover {
+  transform: translateY(-1px);
+}
+
 .stop-btn {
   width: 100%;
   margin-top: 12px;
@@ -219,11 +226,19 @@ button {
   background: #fce7f3;
 }
 
+.stop-btn:hover {
+  background: #fbcfe8;
+}
+
 .clear-btn {
   padding: 10px 14px;
   background: #fce7f3;
   color: #ec4899;
   font-size: 14px;
+}
+
+.clear-btn:hover {
+  background: #fbcfe8;
 }
 
 ul {
@@ -286,6 +301,11 @@ ul {
   font-size: 14px;
 }
 
+.delete-btn:hover,
+.invoice-delete-btn:hover {
+  background: #fb7185;
+}
+
 .empty {
   text-align: center;
   padding: 28px 16px;
@@ -321,12 +341,18 @@ ul {
   margin-top: 18px;
 }
 
-#scannerVideo {
+#scannerArea {
   display: none;
   width: 100%;
   margin-top: 14px;
   border-radius: 18px;
+  overflow: hidden;
   background: #111827;
+}
+
+#scannerArea video {
+  width: 100% !important;
+  border-radius: 18px;
 }
 
 .upload-label {

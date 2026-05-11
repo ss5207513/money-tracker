@@ -7,12 +7,18 @@
   <title>簡單記帳 Cute 版</title>
 
   <link rel="stylesheet" href="style.css" />
+
+  <!-- QR Code 掃描套件 -->
+  <script src="https://unpkg.com/html5-qrcode" defer></script>
+
+  <!-- 自己的 JS -->
   <script src="script.js" defer></script>
 </head>
 
 <body>
   <div class="app">
 
+    <!-- 頂部 -->
     <header class="top-bar">
       <div>
         <p class="small-title">My Cute Money Book</p>
@@ -23,6 +29,7 @@
       <div class="top-icon">🐷</div>
     </header>
 
+    <!-- 存款總覽 -->
     <section class="balance-card">
       <p class="balance-label">目前存款</p>
       <h2 id="balance">$0</h2>
@@ -40,6 +47,7 @@
       </div>
     </section>
 
+    <!-- 存錢目標 -->
     <section class="goal-card">
       <div class="card-head">
         <h2>🎯 存錢目標</h2>
@@ -47,8 +55,18 @@
       </div>
 
       <div class="goal-inputs">
-        <input type="text" id="goalName" placeholder="目標名稱，例如：買手機、旅行基金" />
-        <input type="number" id="goalAmount" placeholder="目標金額，例如：30000" />
+        <input
+          type="text"
+          id="goalName"
+          placeholder="目標名稱，例如：買手機、旅行基金"
+        />
+
+        <input
+          type="number"
+          id="goalAmount"
+          placeholder="目標金額，例如：30000"
+        />
+
         <button type="button" id="saveGoalBtn">儲存目標</button>
       </div>
 
@@ -59,6 +77,7 @@
       </div>
     </section>
 
+    <!-- 新增紀錄 -->
     <section class="add-card">
       <div class="card-head">
         <h2>📝 新增紀錄</h2>
@@ -84,13 +103,29 @@
         </select>
       </div>
 
-      <input type="number" id="amount" placeholder="輸入金額，例如：120" />
-      <input type="date" id="date" />
-      <input type="text" id="note" placeholder="備註，例如：午餐、打工收入、飲料" />
+      <input
+        type="number"
+        id="amount"
+        placeholder="輸入金額，例如：120"
+      />
 
-      <button type="button" class="add-btn" id="addRecordBtn">新增這一筆</button>
+      <input
+        type="date"
+        id="date"
+      />
+
+      <input
+        type="text"
+        id="note"
+        placeholder="備註，例如：午餐、打工收入、飲料"
+      />
+
+      <button type="button" class="add-btn" id="addRecordBtn">
+        新增這一筆
+      </button>
     </section>
 
+    <!-- 交易紀錄 -->
     <section class="record-card">
       <div class="record-header">
         <div>
@@ -98,12 +133,15 @@
           <p>最近新增的紀錄會顯示在最上方</p>
         </div>
 
-        <button type="button" class="clear-btn" id="clearRecordsBtn">清空</button>
+        <button type="button" class="clear-btn" id="clearRecordsBtn">
+          清空
+        </button>
       </div>
 
       <ul id="recordList"></ul>
     </section>
 
+    <!-- 發票載具 -->
     <section class="invoice-card">
       <div class="record-header">
         <div>
@@ -115,9 +153,15 @@
       <div class="carrier-box">
         <label for="carrierNumber">載具號碼</label>
 
-        <input type="text" id="carrierNumber" placeholder="例如：/CL76CK" />
+        <input
+          type="text"
+          id="carrierNumber"
+          placeholder="例如：/CL76CK"
+        />
 
-        <button type="button" class="carrier-btn" id="saveCarrierBtn">儲存載具</button>
+        <button type="button" class="carrier-btn" id="saveCarrierBtn">
+          儲存載具
+        </button>
 
         <p class="carrier-now">
           目前載具：<span id="currentCarrier">尚未設定</span>
@@ -125,14 +169,24 @@
       </div>
 
       <div class="scan-box">
-        <button type="button" class="scan-btn" id="startScanBtn">開啟相機掃描</button>
-        <button type="button" class="stop-btn" id="stopScanBtn">停止掃描</button>
+        <button type="button" class="scan-btn" id="startScanBtn">
+          開啟相機掃描 QR Code
+        </button>
 
-        <video id="scannerVideo" autoplay playsinline></video>
+        <button type="button" class="stop-btn" id="stopScanBtn">
+          停止掃描
+        </button>
+
+        <!-- QR Code 掃描畫面 -->
+        <div id="scannerArea"></div>
 
         <label class="upload-label">
           上傳發票圖片掃描
-          <input type="file" id="invoiceImage" accept="image/*" />
+          <input
+            type="file"
+            id="invoiceImage"
+            accept="image/*"
+          />
         </label>
       </div>
 
@@ -142,6 +196,7 @@
       </div>
     </section>
 
+    <!-- 底部導覽 -->
     <nav class="bottom-nav">
       <div class="nav-item active">首頁</div>
       <div class="nav-item">記帳</div>
