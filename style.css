@@ -237,7 +237,8 @@ body {
 .filter-box input,
 .carrier-area input {
   width: 100%;
-  padding: 15px 16px;
+  min-height: 52px;
+  padding: 14px 16px;
   border-radius: 18px;
   border: 2px solid #f3bfd5;
   background: #fff8fc;
@@ -256,6 +257,44 @@ body {
   box-shadow: 0 0 0 4px rgba(244, 139, 181, 0.12);
 }
 
+/* 手機日期 / 月份輸入框修正 */
+input[type="date"],
+input[type="month"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  min-height: 52px;
+  height: 52px;
+  padding: 0 15px;
+  border-radius: 16px;
+  border: 2px solid #f3bfd5;
+  background-color: #fff8fc;
+  color: #5f6575;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 52px;
+  text-align: left;
+}
+
+input[type="date"]::-webkit-date-and-time-value,
+input[type="month"]::-webkit-date-and-time-value {
+  text-align: left;
+  color: #5f6575;
+  line-height: 52px;
+}
+
+input[type="date"]::-webkit-datetime-edit,
+input[type="month"]::-webkit-datetime-edit {
+  padding: 0;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="month"]::-webkit-calendar-picker-indicator {
+  opacity: 0.65;
+  cursor: pointer;
+}
+
+/* 按鈕 */
 .goal-form button,
 .main-btn,
 .clear-btn,
