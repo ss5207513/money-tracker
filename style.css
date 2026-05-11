@@ -18,7 +18,6 @@ body {
   min-height: 100vh;
 }
 
-/* 手機主容器 */
 .container {
   width: 100%;
   max-width: 480px;
@@ -88,7 +87,6 @@ body {
   justify-content: center;
   overflow: hidden;
   cursor: pointer;
-  position: relative;
   border: 3px solid rgba(255, 255, 255, 0.95);
   transition: transform 0.2s ease;
   padding: 0;
@@ -115,7 +113,7 @@ body {
   color: rgba(255, 255, 255, 0.95);
 }
 
-/* 總覽卡片 */
+/* 總覽 */
 .cards {
   display: grid;
   grid-template-columns: 1fr;
@@ -155,19 +153,58 @@ body {
   color: #5294ff;
 }
 
-/* 共用區塊 */
+/* 分類切換 */
+.category-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 2px solid #f8d8e6;
+  border-radius: 22px;
+  padding: 8px;
+  margin-bottom: 14px;
+  position: sticky;
+  top: 8px;
+  z-index: 10;
+  backdrop-filter: blur(8px);
+}
+
+.tab-btn {
+  border: none;
+  border-radius: 17px;
+  padding: 13px 10px;
+  font-size: 15px;
+  font-weight: 900;
+  cursor: pointer;
+  color: #ff5fa2;
+  background: transparent;
+}
+
+.tab-btn.active {
+  color: #fff;
+  background: linear-gradient(90deg, #f26f86 0%, #eca0db 100%);
+  box-shadow: 0 8px 18px rgba(242, 111, 134, 0.2);
+}
+
+.tab-section {
+  display: none;
+}
+
+.tab-section.active {
+  display: grid;
+  gap: 14px;
+}
+
+/* 區塊 */
 .goal-box,
 .form-box,
-.record-box {
+.record-box,
+.invoice-box {
   background: rgba(255, 255, 255, 0.92);
   border: 2px solid #f8d8e6;
   border-radius: 28px;
   padding: 20px;
   box-shadow: 0 10px 24px rgba(221, 183, 216, 0.12);
-}
-
-.goal-box {
-  margin-bottom: 14px;
 }
 
 .section-title h2,
@@ -186,7 +223,7 @@ body {
   line-height: 1.5;
 }
 
-/* 存錢目標 */
+/* 表單 */
 .goal-form {
   display: grid;
   grid-template-columns: 1fr;
@@ -197,7 +234,8 @@ body {
 .goal-form input,
 .form-box input,
 .form-box select,
-.filter-box input {
+.filter-box input,
+.carrier-area input {
   width: 100%;
   padding: 15px 16px;
   border-radius: 18px;
@@ -211,7 +249,8 @@ body {
 .goal-form input:focus,
 .form-box input:focus,
 .form-box select:focus,
-.filter-box input:focus {
+.filter-box input:focus,
+.carrier-area input:focus {
   border-color: #f48bb5;
   background: #fff;
   box-shadow: 0 0 0 4px rgba(244, 139, 181, 0.12);
@@ -220,7 +259,8 @@ body {
 .goal-form button,
 .main-btn,
 .clear-btn,
-.page-btn {
+.page-btn,
+.soft-btn {
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -242,18 +282,17 @@ body {
 .main-btn:active,
 .clear-btn:active,
 .page-btn:active,
-.delete-btn:active {
+.delete-btn:active,
+.invoice-delete-btn:active,
+.soft-btn:active,
+.tab-btn:active {
   transform: scale(0.97);
 }
 
-.goal-status {
-  margin-top: 6px;
-}
-
+/* 存錢目標 */
 .goal-text-row {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   gap: 10px;
   margin-bottom: 10px;
   font-size: 14px;
@@ -281,13 +320,7 @@ body {
   transition: width 0.3s ease;
 }
 
-/* 主區塊：手機一欄 */
-.main-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 14px;
-}
-
+/* 記帳 */
 .form-box {
   display: flex;
   flex-direction: column;
@@ -295,7 +328,8 @@ body {
 }
 
 .form-box label,
-.filter-box label {
+.filter-box label,
+.carrier-area label {
   color: #ff5fa2;
   font-weight: 800;
   font-size: 14px;
@@ -330,7 +364,6 @@ body {
   gap: 8px;
 }
 
-/* 當月總收入/支出 */
 .month-summary {
   display: grid;
   gap: 10px;
@@ -367,7 +400,6 @@ body {
   color: #ff667a;
 }
 
-/* 交易清單 */
 .record-list {
   list-style: none;
   display: grid;
@@ -444,7 +476,8 @@ body {
   word-break: break-word;
 }
 
-.delete-btn {
+.delete-btn,
+.invoice-delete-btn {
   border: none;
   background: #f29aaa;
   color: #fff;
@@ -465,7 +498,6 @@ body {
   font-size: 14px;
 }
 
-/* 分頁 */
 .pagination {
   margin-top: 16px;
   display: flex;
@@ -492,6 +524,166 @@ body {
   font-size: 14px;
   font-weight: 900;
   color: #8d92a1;
+}
+
+/* 發票載具 */
+.carrier-area {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.carrier-now {
+  color: #8d92a1;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.carrier-now span {
+  color: #ff5fa2;
+  font-weight: 900;
+}
+
+.scan-area {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.soft-btn {
+  width: 100%;
+  background: #f9dbe6;
+  color: #ff5fa2;
+  font-size: 16px;
+  font-weight: 900;
+  padding: 15px 20px;
+  border-radius: 18px;
+}
+
+#scannerArea {
+  display: none;
+  width: 100%;
+  margin-top: 4px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #111827;
+  border: 3px solid #f8d8e6;
+}
+
+#scannerArea video {
+  width: 100% !important;
+  border-radius: 18px;
+}
+
+.upload-label {
+  display: block;
+  text-align: center;
+  padding: 15px;
+  border-radius: 18px;
+  background: #fff8fc;
+  border: 2px dashed #f3bfd5;
+  color: #ff5fa2;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.upload-label input {
+  display: none;
+}
+
+.invoice-list-box {
+  margin-top: 18px;
+}
+
+.invoice-list-box h3 {
+  color: #ff5fa2;
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+
+.invoice-list {
+  list-style: none;
+  display: grid;
+  gap: 12px;
+}
+
+.invoice-item {
+  background: #fff8fc;
+  border: 2px solid #f6d8e4;
+  border-left: 8px solid #f7a8c7;
+  border-radius: 24px;
+  padding: 15px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: start;
+}
+
+.invoice-main {
+  color: #4d5566;
+  font-size: 15px;
+  font-weight: 900;
+  word-break: break-all;
+}
+
+.invoice-toggle {
+  cursor: pointer;
+}
+
+.invoice-sub {
+  font-size: 12px;
+  color: #8d92a1;
+  line-height: 1.6;
+  margin-top: 6px;
+}
+
+.invoice-detail {
+  margin-top: 12px;
+}
+
+.invoice-detail-box {
+  background: #fff4f9;
+  border: 2px dashed #f3bfd5;
+  border-radius: 18px;
+  padding: 12px;
+  color: #5f6575;
+}
+
+.invoice-detail-box p {
+  font-size: 13px;
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+
+.invoice-detail-box strong {
+  color: #ff5fa2;
+}
+
+.invoice-detail-box hr {
+  border: none;
+  border-top: 1px solid #f3bfd5;
+  margin: 10px 0;
+}
+
+.invoice-product {
+  background: #fff;
+  border: 1px solid #f6d8e4;
+  border-radius: 14px;
+  padding: 10px;
+  margin-top: 8px;
+}
+
+.invoice-product strong {
+  display: block;
+  color: #ff5fa2;
+  margin-bottom: 4px;
+}
+
+.invoice-product span {
+  display: block;
+  font-size: 12px;
+  color: #8d92a1;
+  line-height: 1.5;
 }
 
 /* 平板與桌機 */
@@ -539,8 +731,7 @@ body {
     grid-template-columns: 1.4fr 1fr auto;
   }
 
-  .main-grid {
-    grid-template-columns: 350px 1fr;
+  .tab-section.active {
     gap: 18px;
   }
 
@@ -558,7 +749,12 @@ body {
     font-size: 18px;
   }
 
-  .record-meta {
+  .record-meta,
+  .invoice-sub {
     font-size: 14px;
+  }
+
+  .invoice-main {
+    font-size: 16px;
   }
 }

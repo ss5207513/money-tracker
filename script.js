@@ -1,10 +1,19 @@
 const RECORDS_KEY = "cuteMoneyRecords";
 const GOAL_KEY = "cuteMoneyGoal";
 const AVATAR_KEY = "cuteMoneyAvatar";
+const CARRIER_KEY = "cuteMoneyCarrier";
+const INVOICES_KEY = "cuteMoneyInvoices";
 
 let records = [];
 let currentPage = 1;
 const pageSize = 10;
+
+let carrierData = {
+  carrierNumber: "",
+  invoices: []
+};
+
+let html5QrCode = null;
 
 const incomeCategories = ["薪水", "打工收入", "獎金", "紅包", "投資", "其他收入"];
 const expenseCategories = ["餐飲", "飲料", "交通", "購物", "娛樂", "生活", "房租", "醫療", "學費", "其他支出"];
@@ -13,13 +22,21 @@ document.addEventListener("DOMContentLoaded", () => {
   initDefaultDate();
   loadRecords();
   loadGoal();
+  loadCarrierData();
   initCategoryOptions();
   initAvatarUpload();
   bindEvents();
   updateScreen();
+  renderInvoices();
 });
 
 function bindEvents() {
+  document.querySelectorAll(".tab-btn").forEach((button) => {
+    button.addEventListener("click", () => {
+      switchTab(button.dataset.tab);
+    });
+  });
+
   document.getElementById("type").addEventListener("change", initCategoryOptions);
   document.getElementById("addRecordBtn").addEventListener("click", addRecord);
   document.getElementById("saveGoalBtn").addEventListener("click", saveGoal);
@@ -46,8 +63,29 @@ function bindEvents() {
       renderRecords();
     }
   });
+
+  document.getElementById("saveCarrierBtn").addEventListener("click", saveCarrier);
+  document.getElementById("startScanBtn").addEventListener("click", startCarrierScan);
+  document.getElementById("stopScanBtn").addEventListener("click", stopCarrierScan);
+  document.getElementById("invoiceImage").addEventListener("change", uploadInvoiceImage);
 }
 
+/* 分類切換 */
+function switchTab(targetId) {
+  document.querySelectorAll(".tab-btn").forEach((button) => {
+    button.classList.toggle("active", button.dataset.tab === targetId);
+  });
+
+  document.querySelectorAll(".tab-section").forEach((section) => {
+    section.classList.toggle("active", section.id === targetId);
+  });
+
+  if (targetId !== "invoiceSection") {
+    stopCarrierScan();
+  }
+}
+
+/* 日期 */
 function initDefaultDate() {
   const today = new Date();
   document.getElementById("date").value = toDateString(today);
@@ -67,6 +105,7 @@ function toMonthString(date) {
   return `${y}-${m}`;
 }
 
+/* 工具 */
 function formatMoney(number) {
   return "$" + Number(number || 0).toLocaleString("en-US");
 }
@@ -79,6 +118,7 @@ function escapeHtml(text) {
     .replace(/"/g, "&quot;");
 }
 
+/* 記帳資料 */
 function saveRecords() {
   localStorage.setItem(RECORDS_KEY, JSON.stringify(records));
 }
@@ -86,20 +126,6 @@ function saveRecords() {
 function loadRecords() {
   const saved = localStorage.getItem(RECORDS_KEY);
   records = saved ? JSON.parse(saved) : [];
-}
-
-function saveGoalToLocal(goal) {
-  localStorage.setItem(GOAL_KEY, JSON.stringify(goal));
-}
-
-function loadGoal() {
-  const savedGoal = localStorage.getItem(GOAL_KEY);
-
-  if (!savedGoal) return;
-
-  const goal = JSON.parse(savedGoal);
-  document.getElementById("goalName").value = goal.name || "";
-  document.getElementById("goalAmount").value = goal.amount || "";
 }
 
 function initCategoryOptions() {
@@ -165,9 +191,7 @@ function deleteRecord(id) {
   const filtered = getFilteredRecords();
   const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
 
-  if (currentPage > totalPages) {
-    currentPage = totalPages;
-  }
+  if (currentPage > totalPages) currentPage = totalPages;
 
   updateScreen();
 }
@@ -179,13 +203,26 @@ function clearAllRecords() {
   }
 
   const ok = confirm("確定要清空所有交易紀錄嗎？");
-
   if (!ok) return;
 
   records = [];
   currentPage = 1;
   saveRecords();
   updateScreen();
+}
+
+/* 目標 */
+function saveGoalToLocal(goal) {
+  localStorage.setItem(GOAL_KEY, JSON.stringify(goal));
+}
+
+function loadGoal() {
+  const savedGoal = localStorage.getItem(GOAL_KEY);
+  if (!savedGoal) return;
+
+  const goal = JSON.parse(savedGoal);
+  document.getElementById("goalName").value = goal.name || "";
+  document.getElementById("goalAmount").value = goal.amount || "";
 }
 
 function saveGoal() {
@@ -221,9 +258,11 @@ function getTotals() {
     .filter((item) => item.type === "expense")
     .reduce((sum, item) => sum + Number(item.amount), 0);
 
-  const balance = totalIncome - totalExpense;
-
-  return { totalIncome, totalExpense, balance };
+  return {
+    totalIncome,
+    totalExpense,
+    balance: totalIncome - totalExpense
+  };
 }
 
 function updateSummaryCards() {
@@ -255,6 +294,7 @@ function updateGoalUI() {
   goalProgressBar.style.width = `${progress}%`;
 }
 
+/* 月份與分頁 */
 function getSelectedMonth() {
   return document.getElementById("monthFilter").value;
 }
@@ -296,9 +336,7 @@ function renderRecords() {
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
 
-  if (currentPage > totalPages) {
-    currentPage = totalPages;
-  }
+  if (currentPage > totalPages) currentPage = totalPages;
 
   const start = (currentPage - 1) * pageSize;
   const currentRecords = filtered.slice(start, start + pageSize);
@@ -342,14 +380,12 @@ function renderRecords() {
       .join("");
   }
 
-  bindDeleteButtons();
+  bindRecordDeleteButtons();
   updatePagination(totalPages);
 }
 
-function bindDeleteButtons() {
-  const buttons = document.querySelectorAll(".delete-btn");
-
-  buttons.forEach((btn) => {
+function bindRecordDeleteButtons() {
+  document.querySelectorAll(".delete-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
       const id = Number(btn.getAttribute("data-id"));
       deleteRecord(id);
@@ -368,13 +404,11 @@ function updatePagination(totalPages) {
   prevBtn.disabled = currentPage <= 1;
   nextBtn.disabled = currentPage >= totalPages;
 
-  prevBtn.style.opacity = currentPage <= 1 ? "0.5" : "1";
-  nextBtn.style.opacity = currentPage >= totalPages ? "0.5" : "1";
-
   const filtered = getFilteredRecords();
   paginationBox.style.display = filtered.length > pageSize ? "flex" : "none";
 }
 
+/* 大頭貼 */
 function initAvatarUpload() {
   const avatarBtn = document.getElementById("avatarBtn");
   const avatarInput = document.getElementById("avatarInput");
@@ -450,6 +484,351 @@ function resizeImage(file, maxWidth, maxHeight, callback) {
   };
 
   reader.readAsDataURL(file);
+}
+
+/* 發票載具 */
+function loadCarrierData() {
+  const savedCarrier = localStorage.getItem(CARRIER_KEY);
+  const savedInvoices = localStorage.getItem(INVOICES_KEY);
+
+  carrierData.carrierNumber = savedCarrier || "";
+  carrierData.invoices = savedInvoices ? JSON.parse(savedInvoices) : [];
+
+  const carrierInput = document.getElementById("carrierNumber");
+  const currentCarrier = document.getElementById("currentCarrier");
+
+  if (carrierInput) carrierInput.value = carrierData.carrierNumber;
+  if (currentCarrier) currentCarrier.textContent = carrierData.carrierNumber || "尚未設定";
+}
+
+function saveCarrierData() {
+  localStorage.setItem(CARRIER_KEY, carrierData.carrierNumber || "");
+  localStorage.setItem(INVOICES_KEY, JSON.stringify(carrierData.invoices || []));
+}
+
+function saveCarrier() {
+  const input = document.getElementById("carrierNumber");
+  const value = input.value.trim();
+
+  if (!value) {
+    alert("請輸入載具號碼");
+    return;
+  }
+
+  carrierData.carrierNumber = value;
+  saveCarrierData();
+
+  document.getElementById("currentCarrier").textContent = value;
+  alert("載具已儲存");
+}
+
+/* QR 掃描 */
+function startCarrierScan() {
+  const scannerArea = document.getElementById("scannerArea");
+
+  if (typeof Html5Qrcode === "undefined") {
+    alert("QR Code 掃描套件尚未載入，請確認網路連線。");
+    return;
+  }
+
+  scannerArea.style.display = "block";
+  scannerArea.innerHTML = "";
+
+  if (html5QrCode) {
+    stopCarrierScan();
+  }
+
+  html5QrCode = new Html5Qrcode("scannerArea");
+
+  html5QrCode.start(
+    { facingMode: "environment" },
+    {
+      fps: 10,
+      qrbox: {
+        width: 250,
+        height: 250
+      }
+    },
+    function (decodedText) {
+      handleInvoiceQrCode(decodedText, "相機掃描");
+      stopCarrierScan();
+    },
+    function () {}
+  ).catch(function (error) {
+    console.log(error);
+    alert("無法開啟相機，請確認已允許相機權限，並使用 HTTPS 網址。");
+  });
+}
+
+function stopCarrierScan() {
+  const scannerArea = document.getElementById("scannerArea");
+
+  if (!scannerArea) return;
+
+  if (html5QrCode) {
+    html5QrCode.stop()
+      .then(function () {
+        html5QrCode.clear();
+        html5QrCode = null;
+        scannerArea.innerHTML = "";
+        scannerArea.style.display = "none";
+      })
+      .catch(function () {
+        html5QrCode = null;
+        scannerArea.innerHTML = "";
+        scannerArea.style.display = "none";
+      });
+  } else {
+    scannerArea.innerHTML = "";
+    scannerArea.style.display = "none";
+  }
+}
+
+function uploadInvoiceImage(event) {
+  const file = event.target.files[0];
+
+  if (!file) return;
+
+  if (typeof Html5Qrcode === "undefined") {
+    alert("QR Code 掃描套件尚未載入，請確認網路連線。");
+    event.target.value = "";
+    return;
+  }
+
+  const scannerArea = document.getElementById("scannerArea");
+  scannerArea.style.display = "block";
+
+  const imageScanner = new Html5Qrcode("scannerArea");
+
+  imageScanner.scanFile(file, true)
+    .then(function (decodedText) {
+      handleInvoiceQrCode(decodedText, "圖片上傳");
+
+      imageScanner.clear();
+      scannerArea.innerHTML = "";
+      scannerArea.style.display = "none";
+    })
+    .catch(function () {
+      alert("沒有辨識到 QR Code，請換一張清楚的發票圖片。");
+
+      imageScanner.clear();
+      scannerArea.innerHTML = "";
+      scannerArea.style.display = "none";
+    });
+
+  event.target.value = "";
+}
+
+function handleInvoiceQrCode(rawCode, source) {
+  const invoice = parseTaiwanInvoiceQr(rawCode, source);
+
+  carrierData.invoices.unshift(invoice);
+  saveCarrierData();
+  renderInvoices();
+
+  alert("發票 QR Code 已掃描，可點擊發票查看明細");
+}
+
+function parseTaiwanInvoiceQr(rawCode, source) {
+  const raw = String(rawCode || "").trim();
+
+  const invoice = {
+    id: Date.now(),
+    source,
+    rawCode: raw,
+    carrierNumber: carrierData.carrierNumber || "未設定載具",
+    scanDate: new Date().toLocaleString("zh-TW"),
+    invoiceNumber: "未辨識",
+    invoiceDate: "未辨識",
+    totalAmount: 0,
+    randomCode: "",
+    sellerId: "",
+    items: [],
+    expanded: false
+  };
+
+  const invoiceNumberMatch = raw.match(/[A-Z]{2}\d{8}/);
+
+  if (invoiceNumberMatch) {
+    invoice.invoiceNumber = invoiceNumberMatch[0];
+  }
+
+  if (raw.length >= 37 && /^[A-Z]{2}\d{8}/.test(raw)) {
+    const dateCode = raw.substring(10, 17);
+    const randomCode = raw.substring(17, 21);
+    const totalAmountHex = raw.substring(29, 37);
+
+    invoice.invoiceDate = convertRocDate(dateCode);
+    invoice.randomCode = randomCode;
+
+    const totalAmount = parseInt(totalAmountHex, 16);
+
+    if (!Number.isNaN(totalAmount)) {
+      invoice.totalAmount = totalAmount;
+    }
+
+    if (raw.length >= 53) {
+      invoice.sellerId = raw.substring(45, 53);
+    }
+  }
+
+  invoice.items = parseInvoiceItems(raw);
+
+  return invoice;
+}
+
+function convertRocDate(code) {
+  if (!/^\d{7}$/.test(code)) return "未辨識";
+
+  const year = Number(code.substring(0, 3)) + 1911;
+  const month = code.substring(3, 5);
+  const day = code.substring(5, 7);
+
+  return `${year}/${month}/${day}`;
+}
+
+function parseInvoiceItems(rawCode) {
+  const raw = String(rawCode || "").trim();
+  let text = raw;
+
+  if (text.startsWith("**")) {
+    text = text.substring(2);
+  }
+
+  const parts = text
+    .split(":")
+    .map((part) => part.trim())
+    .filter((part) => part !== "");
+
+  const items = [];
+
+  if (parts.length >= 3) {
+    for (let i = 0; i < parts.length; i += 3) {
+      items.push({
+        name: parts[i] || "未辨識品項",
+        quantity: parts[i + 1] || "-",
+        amount: parts[i + 2] || "-"
+      });
+    }
+  }
+
+  if (items.length === 0) {
+    items.push({
+      name: "QR Code 原始內容",
+      quantity: "-",
+      amount: raw
+    });
+  }
+
+  return items;
+}
+
+function renderInvoices() {
+  const list = document.getElementById("invoiceList");
+
+  if (!list) return;
+
+  if (!carrierData.invoices || carrierData.invoices.length === 0) {
+    list.innerHTML = `
+      <li class="empty-box">
+        尚未掃描發票，可使用相機或上傳圖片。
+      </li>
+    `;
+    return;
+  }
+
+  list.innerHTML = carrierData.invoices
+    .map((invoice) => {
+      const amountText = invoice.totalAmount > 0 ? formatMoney(invoice.totalAmount) : "未辨識";
+      const detailDisplay = invoice.expanded ? "block" : "none";
+
+      return `
+        <li class="invoice-item">
+          <div>
+            <div class="invoice-main invoice-toggle" data-id="${invoice.id}">
+              🧾 ${escapeHtml(invoice.invoiceNumber)}
+            </div>
+
+            <div class="invoice-sub">
+              日期：${escapeHtml(invoice.invoiceDate)}<br>
+              金額：${amountText}<br>
+              載具：${escapeHtml(invoice.carrierNumber)}<br>
+              點擊發票可展開明細
+            </div>
+
+            <div class="invoice-detail" style="display:${detailDisplay}">
+              ${renderInvoiceDetail(invoice)}
+            </div>
+          </div>
+
+          <button class="invoice-delete-btn" data-id="${invoice.id}">
+            刪除
+          </button>
+        </li>
+      `;
+    })
+    .join("");
+
+  bindInvoiceButtons();
+}
+
+function renderInvoiceDetail(invoice) {
+  const itemHtml = invoice.items
+    .map((item, index) => {
+      return `
+        <div class="invoice-product">
+          <strong>${index + 1}. ${escapeHtml(item.name)}</strong>
+          <span>數量：${escapeHtml(item.quantity)}</span>
+          <span>金額：${escapeHtml(item.amount)}</span>
+        </div>
+      `;
+    })
+    .join("");
+
+  return `
+    <div class="invoice-detail-box">
+      <p><strong>發票號碼：</strong>${escapeHtml(invoice.invoiceNumber)}</p>
+      <p><strong>發票日期：</strong>${escapeHtml(invoice.invoiceDate)}</p>
+      <p><strong>發票金額：</strong>${invoice.totalAmount > 0 ? formatMoney(invoice.totalAmount) : "未辨識"}</p>
+      <p><strong>隨機碼：</strong>${escapeHtml(invoice.randomCode || "未辨識")}</p>
+      <p><strong>賣方統編：</strong>${escapeHtml(invoice.sellerId || "未辨識")}</p>
+
+      <hr>
+
+      <p><strong>購買品項：</strong></p>
+      ${itemHtml}
+    </div>
+  `;
+}
+
+function bindInvoiceButtons() {
+  document.querySelectorAll(".invoice-toggle").forEach((item) => {
+    item.addEventListener("click", () => {
+      const id = Number(item.getAttribute("data-id"));
+
+      carrierData.invoices = carrierData.invoices.map((invoice) => {
+        if (invoice.id === id) {
+          invoice.expanded = !invoice.expanded;
+        }
+
+        return invoice;
+      });
+
+      saveCarrierData();
+      renderInvoices();
+    });
+  });
+
+  document.querySelectorAll(".invoice-delete-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const id = Number(btn.getAttribute("data-id"));
+
+      carrierData.invoices = carrierData.invoices.filter((invoice) => invoice.id !== id);
+
+      saveCarrierData();
+      renderInvoices();
+    });
+  });
 }
 
 function updateScreen() {

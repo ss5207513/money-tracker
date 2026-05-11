@@ -3,17 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>簡單記帳 Cute Money Book</title>
+
   <link rel="stylesheet" href="style.css" />
+
+  <!-- QR Code 掃描套件 -->
+  <script src="https://unpkg.com/html5-qrcode" defer></script>
+
+  <!-- 自己的程式 -->
+  <script src="script.js" defer></script>
 </head>
 
 <body>
   <div class="container">
+
+    <!-- 頂部 -->
     <header class="hero">
       <div class="hero-left">
         <p class="mini-title">My Cute Money Book</p>
         <h1>簡單記帳</h1>
-        <p class="hero-subtitle">輕鬆記錄收入與支出，讓存錢變得更可愛 ♡</p>
+        <p class="hero-subtitle">收入、支出、發票載具，一起整理好 ♡</p>
       </div>
 
       <div class="hero-right">
@@ -28,6 +38,7 @@
       </div>
     </header>
 
+    <!-- 總覽 -->
     <section class="cards">
       <div class="card income-card">
         <p>總收入</p>
@@ -45,33 +56,48 @@
       </div>
     </section>
 
-    <section class="goal-box">
-      <div class="section-title">
-        <h2>存錢目標</h2>
-        <p>設定你想存到的金額</p>
-      </div>
+    <!-- 分類切換 -->
+    <nav class="category-tabs">
+      <button type="button" class="tab-btn active" data-tab="moneySection">
+        💰 記帳
+      </button>
 
-      <div class="goal-form">
-        <input type="text" id="goalName" placeholder="目標名稱，例如：買手機、旅行基金" />
-        <input type="number" id="goalAmount" placeholder="目標金額，例如：30000" />
-        <button type="button" id="saveGoalBtn">儲存目標</button>
-      </div>
+      <button type="button" class="tab-btn" data-tab="invoiceSection">
+        🧾 發票載具
+      </button>
+    </nav>
 
-      <div class="goal-status">
-        <div class="goal-text-row">
-          <span id="goalLabel">尚未設定目標</span>
-          <span id="goalPercent">0%</span>
+    <!-- 記帳分類 -->
+    <section id="moneySection" class="tab-section active">
+
+      <!-- 存錢目標 -->
+      <section class="goal-box">
+        <div class="section-title">
+          <h2>🎯 存錢目標</h2>
+          <p>設定你想存到的金額</p>
         </div>
 
-        <div class="progress-bar">
-          <div id="goalProgressBar" class="progress-fill"></div>
+        <div class="goal-form">
+          <input type="text" id="goalName" placeholder="目標名稱，例如：買手機、旅行基金" />
+          <input type="number" id="goalAmount" placeholder="目標金額，例如：30000" />
+          <button type="button" id="saveGoalBtn">儲存目標</button>
         </div>
-      </div>
-    </section>
 
-    <section class="main-grid">
-      <div class="form-box">
-        <h2>新增紀錄</h2>
+        <div class="goal-status">
+          <div class="goal-text-row">
+            <span id="goalLabel">尚未設定目標</span>
+            <span id="goalPercent">0%</span>
+          </div>
+
+          <div class="progress-bar">
+            <div id="goalProgressBar" class="progress-fill"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 新增紀錄 -->
+      <section class="form-box">
+        <h2>📝 新增紀錄</h2>
 
         <label for="type">類型</label>
         <select id="type">
@@ -92,9 +118,10 @@
         <input type="text" id="note" placeholder="例如：午餐、打工收入、飲料" />
 
         <button type="button" id="addRecordBtn" class="main-btn">新增這一筆</button>
-      </div>
+      </section>
 
-      <div class="record-box">
+      <!-- 交易紀錄 -->
+      <section class="record-box">
         <div class="record-header">
           <div>
             <h2>📒 交易紀錄</h2>
@@ -128,10 +155,58 @@
           <span id="pageInfo">第 1 / 1 頁</span>
           <button type="button" id="nextPageBtn" class="page-btn">下一頁</button>
         </div>
-      </div>
+      </section>
     </section>
-  </div>
 
-  <script src="script.js"></script>
+    <!-- 發票載具分類 -->
+    <section id="invoiceSection" class="tab-section">
+
+      <section class="invoice-box">
+        <div class="record-header">
+          <div>
+            <h2>🧾 發票載具</h2>
+            <p>儲存載具號碼，並掃描或上傳發票 QR Code</p>
+          </div>
+        </div>
+
+        <div class="carrier-area">
+          <label for="carrierNumber">載具號碼</label>
+          <input type="text" id="carrierNumber" placeholder="例如：/CL76CK" />
+
+          <button type="button" id="saveCarrierBtn" class="main-btn">
+            儲存載具
+          </button>
+
+          <p class="carrier-now">
+            目前載具：<span id="currentCarrier">尚未設定</span>
+          </p>
+        </div>
+
+        <div class="scan-area">
+          <button type="button" id="startScanBtn" class="main-btn">
+            開啟相機掃描 QR Code
+          </button>
+
+          <button type="button" id="stopScanBtn" class="soft-btn">
+            停止掃描
+          </button>
+
+          <div id="scannerArea"></div>
+
+          <label class="upload-label">
+            上傳發票圖片掃描
+            <input type="file" id="invoiceImage" accept="image/*" />
+          </label>
+        </div>
+
+        <div class="invoice-list-box">
+          <h3>已掃描發票</h3>
+          <ul id="invoiceList" class="invoice-list"></ul>
+        </div>
+      </section>
+
+    </section>
+
+  </div>
 </body>
 </html>
