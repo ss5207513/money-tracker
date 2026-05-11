@@ -4,52 +4,73 @@
   padding: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: "Microsoft JhengHei", "Noto Sans TC", sans-serif;
-  background: linear-gradient(90deg, #fff4e8 0%, #eef8ff 100%);
+  background:
+    radial-gradient(circle at top left, #ffe4f3 0, transparent 35%),
+    radial-gradient(circle at top right, #e0f2fe 0, transparent 35%),
+    linear-gradient(180deg, #fff7ed 0%, #fff7fb 45%, #eef8ff 100%);
   color: #5f6575;
   min-height: 100vh;
 }
 
+/* 手機主容器 */
 .container {
-  width: min(1100px, 92%);
-  margin: 24px auto 50px;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 14px 14px 40px;
 }
 
+/* 頂部 */
 .hero {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 24px;
-  padding: 28px;
+  gap: 14px;
+  padding: 20px;
   border-radius: 28px;
   background: linear-gradient(135deg, #f7a8c7 0%, #b4b7ff 100%);
   color: #fff;
-  box-shadow: 0 12px 30px rgba(244, 114, 182, 0.18);
-  margin-bottom: 20px;
+  box-shadow: 0 12px 28px rgba(244, 114, 182, 0.2);
+  margin-bottom: 16px;
+}
+
+.hero-left {
+  flex: 1;
+  min-width: 0;
 }
 
 .mini-title {
-  font-size: 14px;
+  font-size: 12px;
   opacity: 0.95;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
 }
 
 .hero h1 {
-  font-size: 42px;
-  margin-bottom: 8px;
+  font-size: 30px;
+  line-height: 1.1;
+  margin-bottom: 6px;
+  letter-spacing: 1px;
 }
 
 .hero-subtitle {
-  font-size: 16px;
+  font-size: 13px;
+  line-height: 1.5;
   opacity: 0.95;
 }
 
+/* 大頭貼 */
 .avatar-upload {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 7px;
+  gap: 5px;
+  flex-shrink: 0;
 }
 
 #avatarInput {
@@ -57,9 +78,9 @@ body {
 }
 
 .avatar-box {
-  width: 76px;
-  height: 76px;
-  border-radius: 24px;
+  width: 62px;
+  height: 62px;
+  border-radius: 22px;
   background: #fff;
   box-shadow: 0 10px 24px rgba(244, 114, 182, 0.18);
   display: flex;
@@ -68,13 +89,13 @@ body {
   overflow: hidden;
   cursor: pointer;
   position: relative;
-  border: 3px solid rgba(255, 255, 255, 0.9);
+  border: 3px solid rgba(255, 255, 255, 0.95);
   transition: transform 0.2s ease;
   padding: 0;
 }
 
-.avatar-box:hover {
-  transform: scale(1.04);
+.avatar-box:active {
+  transform: scale(0.96);
 }
 
 #avatarPreview {
@@ -85,39 +106,41 @@ body {
 }
 
 #avatarPlaceholder {
-  font-size: 34px;
+  font-size: 30px;
   display: block;
 }
 
 .avatar-tip {
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.9);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.95);
 }
 
+/* 總覽卡片 */
 .cards {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-bottom: 18px;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 14px;
 }
 
 .card {
-  background: rgba(255, 255, 255, 0.82);
+  background: rgba(255, 255, 255, 0.9);
   border: 2px solid #f8d8e6;
   border-radius: 24px;
-  padding: 22px;
-  box-shadow: 0 10px 24px rgba(221, 183, 216, 0.12);
+  padding: 18px;
+  box-shadow: 0 8px 22px rgba(221, 183, 216, 0.13);
 }
 
 .card p {
-  font-size: 15px;
-  margin-bottom: 10px;
+  font-size: 14px;
+  margin-bottom: 6px;
   color: #8e92a2;
+  font-weight: 700;
 }
 
 .card h2 {
-  font-size: 38px;
-  font-weight: 800;
+  font-size: 30px;
+  font-weight: 900;
 }
 
 .income-card h2 {
@@ -132,39 +155,43 @@ body {
   color: #5294ff;
 }
 
+/* 共用區塊 */
 .goal-box,
 .form-box,
 .record-box {
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.92);
   border: 2px solid #f8d8e6;
   border-radius: 28px;
-  padding: 24px;
-  box-shadow: 0 10px 24px rgba(221, 183, 216, 0.1);
+  padding: 20px;
+  box-shadow: 0 10px 24px rgba(221, 183, 216, 0.12);
 }
 
 .goal-box {
-  margin-bottom: 18px;
+  margin-bottom: 14px;
 }
 
 .section-title h2,
 .form-box h2,
 .record-header h2 {
   color: #ff5fa2;
-  font-size: 32px;
-  margin-bottom: 6px;
+  font-size: 25px;
+  line-height: 1.2;
+  margin-bottom: 5px;
 }
 
 .section-title p,
 .record-header p {
   color: #9aa0b0;
-  font-size: 14px;
+  font-size: 13px;
+  line-height: 1.5;
 }
 
+/* 存錢目標 */
 .goal-form {
   display: grid;
-  grid-template-columns: 1.4fr 1fr auto;
-  gap: 12px;
-  margin: 18px 0 16px;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin: 16px 0 14px;
 }
 
 .goal-form input,
@@ -172,7 +199,7 @@ body {
 .form-box select,
 .filter-box input {
   width: 100%;
-  padding: 16px 18px;
+  padding: 15px 16px;
   border-radius: 18px;
   border: 2px solid #f3bfd5;
   background: #fff8fc;
@@ -187,6 +214,7 @@ body {
 .filter-box input:focus {
   border-color: #f48bb5;
   background: #fff;
+  box-shadow: 0 0 0 4px rgba(244, 139, 181, 0.12);
 }
 
 .goal-form button,
@@ -200,39 +228,46 @@ body {
 
 .goal-form button,
 .main-btn {
+  width: 100%;
   background: linear-gradient(90deg, #f26f86 0%, #eca0db 100%);
   color: #fff;
-  font-weight: 700;
-  padding: 16px 24px;
+  font-size: 16px;
+  font-weight: 900;
+  padding: 16px 20px;
   border-radius: 18px;
   box-shadow: 0 8px 20px rgba(242, 111, 134, 0.22);
 }
 
-.goal-form button:hover,
-.main-btn:hover,
-.clear-btn:hover,
-.page-btn:hover {
-  transform: translateY(-1px);
-  opacity: 0.95;
+.goal-form button:active,
+.main-btn:active,
+.clear-btn:active,
+.page-btn:active,
+.delete-btn:active {
+  transform: scale(0.97);
 }
 
 .goal-status {
-  margin-top: 8px;
+  margin-top: 6px;
 }
 
 .goal-text-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 10px;
   margin-bottom: 10px;
-  font-size: 16px;
+  font-size: 14px;
   color: #ff5fa2;
-  font-weight: 700;
+  font-weight: 800;
+}
+
+#goalLabel {
+  word-break: break-word;
 }
 
 .progress-bar {
   width: 100%;
-  height: 16px;
+  height: 14px;
   border-radius: 999px;
   background: #f7dbe6;
   overflow: hidden;
@@ -246,25 +281,28 @@ body {
   transition: width 0.3s ease;
 }
 
+/* 主區塊：手機一欄 */
 .main-grid {
   display: grid;
-  grid-template-columns: 350px 1fr;
-  gap: 18px;
+  grid-template-columns: 1fr;
+  gap: 14px;
 }
 
 .form-box {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 9px;
 }
 
 .form-box label,
 .filter-box label {
   color: #ff5fa2;
-  font-weight: 700;
-  margin-top: 6px;
+  font-weight: 800;
+  font-size: 14px;
+  margin-top: 5px;
 }
 
+/* 交易紀錄 */
 .record-header {
   display: flex;
   justify-content: space-between;
@@ -276,9 +314,10 @@ body {
 .clear-btn {
   background: #f9dbe6;
   color: #ff5fa2;
-  font-weight: 700;
-  padding: 12px 18px;
+  font-weight: 900;
+  padding: 11px 15px;
   border-radius: 18px;
+  white-space: nowrap;
 }
 
 .filter-box {
@@ -286,28 +325,38 @@ body {
   border: 2px solid #f8d8e6;
   border-radius: 20px;
   padding: 14px;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
+  display: grid;
+  gap: 8px;
 }
 
+/* 當月總收入/支出 */
 .month-summary {
   display: grid;
-  gap: 12px;
+  gap: 10px;
   margin-bottom: 14px;
 }
 
 .summary-row {
-  border-radius: 18px;
-  padding: 16px 18px;
+  border-radius: 20px;
+  padding: 15px 16px;
   border: 2px solid #f8d8e6;
   background: #fff7fb;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 18px;
+  gap: 12px;
+  font-size: 15px;
+}
+
+.summary-row span {
+  color: #8e92a2;
+  font-weight: 800;
 }
 
 .summary-row strong {
-  font-size: 34px;
+  font-size: 24px;
+  font-weight: 900;
 }
 
 .income-row strong {
@@ -318,21 +367,22 @@ body {
   color: #ff667a;
 }
 
+/* 交易清單 */
 .record-list {
   list-style: none;
   display: grid;
-  gap: 14px;
+  gap: 12px;
 }
 
 .record-item {
   background: #fff8fc;
   border: 2px solid #f6d8e4;
   border-radius: 24px;
-  padding: 18px 18px 18px 20px;
-  display: flex;
-  justify-content: space-between;
+  padding: 15px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
   align-items: center;
-  gap: 14px;
 }
 
 .record-item.income {
@@ -344,25 +394,27 @@ body {
 }
 
 .record-left {
-  flex: 1;
+  min-width: 0;
 }
 
 .record-title {
-  font-size: 18px;
-  font-weight: 800;
+  font-size: 15px;
+  font-weight: 900;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 7px;
   color: #4d5566;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
 }
 
 .record-dot {
-  width: 18px;
-  height: 18px;
+  width: 15px;
+  height: 15px;
   border-radius: 50%;
   display: inline-block;
   border: 2px solid #222;
+  flex-shrink: 0;
 }
 
 .record-dot.income {
@@ -371,6 +423,10 @@ body {
 
 .record-dot.expense {
   background: #ff2a39;
+}
+
+.record-amount {
+  font-weight: 900;
 }
 
 .record-amount.income {
@@ -382,75 +438,127 @@ body {
 }
 
 .record-meta {
-  font-size: 14px;
+  font-size: 12px;
   color: #8d92a1;
-  line-height: 1.6;
+  line-height: 1.5;
+  word-break: break-word;
 }
 
 .delete-btn {
   border: none;
   background: #f29aaa;
   color: #fff;
-  font-weight: 700;
-  padding: 12px 18px;
-  border-radius: 18px;
+  font-weight: 900;
+  padding: 11px 14px;
+  border-radius: 16px;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .empty-box {
   border: 2px dashed #f2bcd2;
   border-radius: 22px;
-  padding: 30px;
+  padding: 26px 18px;
   text-align: center;
   color: #9da3b1;
   background: #fff8fc;
+  font-size: 14px;
 }
 
+/* 分頁 */
 .pagination {
   margin-top: 16px;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 12px;
+  gap: 9px;
+  flex-wrap: wrap;
 }
 
 .page-btn {
   background: #f9dbe6;
   color: #ff5fa2;
-  font-weight: 700;
-  padding: 10px 16px;
+  font-weight: 900;
+  padding: 10px 14px;
   border-radius: 16px;
 }
 
+.page-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 #pageInfo {
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 900;
   color: #8d92a1;
 }
 
-@media (max-width: 900px) {
-  .cards {
-    grid-template-columns: 1fr;
-  }
-
-  .goal-form {
-    grid-template-columns: 1fr;
-  }
-
-  .main-grid {
-    grid-template-columns: 1fr;
+/* 平板與桌機 */
+@media (min-width: 760px) {
+  .container {
+    max-width: 1100px;
+    padding: 24px 0 50px;
   }
 
   .hero {
-    flex-direction: row;
-    align-items: center;
+    padding: 28px;
   }
 
   .hero h1 {
+    font-size: 42px;
+  }
+
+  .hero-subtitle {
+    font-size: 16px;
+  }
+
+  .avatar-box {
+    width: 76px;
+    height: 76px;
+  }
+
+  #avatarPlaceholder {
     font-size: 34px;
   }
 
-  .card h2,
+  .cards {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .card {
+    padding: 22px;
+  }
+
+  .card h2 {
+    font-size: 38px;
+  }
+
+  .goal-form {
+    grid-template-columns: 1.4fr 1fr auto;
+  }
+
+  .main-grid {
+    grid-template-columns: 350px 1fr;
+    gap: 18px;
+  }
+
+  .section-title h2,
+  .form-box h2,
+  .record-header h2 {
+    font-size: 32px;
+  }
+
   .summary-row strong {
-    font-size: 28px;
+    font-size: 34px;
+  }
+
+  .record-title {
+    font-size: 18px;
+  }
+
+  .record-meta {
+    font-size: 14px;
   }
 }
