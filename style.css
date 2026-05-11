@@ -1,0 +1,396 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Microsoft JhengHei", "Noto Sans TC", Arial, sans-serif;
+  background:
+    radial-gradient(circle at top left, #ffe4f3 0, transparent 35%),
+    radial-gradient(circle at top right, #dbeafe 0, transparent 35%),
+    linear-gradient(135deg, #fff1f2, #fef3c7, #e0f2fe);
+  color: #4b5563;
+  min-height: 100vh;
+}
+
+.app {
+  width: 92%;
+  max-width: 1100px;
+  margin: 30px auto;
+}
+
+/* 顶部标题区 */
+.header {
+  position: relative;
+  background: linear-gradient(135deg, #ff8fab, #ffc2d1, #a5b4fc);
+  color: white;
+  padding: 34px;
+  border-radius: 32px;
+  box-shadow: 0 18px 35px rgba(255, 143, 171, 0.35);
+  overflow: hidden;
+}
+
+.header::after {
+  content: "💰";
+  position: absolute;
+  right: 28px;
+  top: 24px;
+  font-size: 58px;
+  opacity: 0.9;
+}
+
+.tag {
+  display: inline-block;
+  background: white;
+  color: #ec4899;
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: bold;
+  margin: 0 0 12px;
+  box-shadow: 0 6px 14px rgba(255, 255, 255, 0.4);
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 36px;
+  letter-spacing: 1px;
+}
+
+.subtitle {
+  margin: 10px 0 0;
+  color: #fff7ed;
+}
+
+/* 总览卡片 */
+.summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin: 24px 0;
+}
+
+.summary-card {
+  background: rgba(255, 255, 255, 0.88);
+  padding: 24px;
+  border-radius: 28px;
+  box-shadow: 0 12px 25px rgba(236, 72, 153, 0.13);
+  border: 3px solid white;
+  position: relative;
+}
+
+.summary-card p {
+  margin: 0;
+  color: #9ca3af;
+  font-weight: bold;
+}
+
+.summary-card h2 {
+  margin: 10px 0 0;
+  font-size: 32px;
+}
+
+.summary-card.income {
+  background: #ecfdf5;
+}
+
+.summary-card.income::before {
+  content: "🌱";
+  position: absolute;
+  right: 18px;
+  top: 16px;
+  font-size: 28px;
+}
+
+.summary-card.income h2 {
+  color: #10b981;
+}
+
+.summary-card.expense {
+  background: #fff1f2;
+}
+
+.summary-card.expense::before {
+  content: "🧸";
+  position: absolute;
+  right: 18px;
+  top: 16px;
+  font-size: 28px;
+}
+
+.summary-card.expense h2 {
+  color: #fb7185;
+}
+
+.summary-card.balance {
+  background: #eff6ff;
+}
+
+.summary-card.balance::before {
+  content: "🐷";
+  position: absolute;
+  right: 18px;
+  top: 16px;
+  font-size: 28px;
+}
+
+.summary-card.balance h2 {
+  color: #60a5fa;
+}
+
+/* 区块 */
+.goal-box,
+.form-box,
+.record-box {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 24px;
+  border-radius: 30px;
+  box-shadow: 0 12px 28px rgba(244, 114, 182, 0.15);
+  border: 3px solid #ffffff;
+}
+
+.goal-box {
+  margin-bottom: 24px;
+}
+
+.goal-title h2,
+.form-box h2,
+.record-box h2 {
+  margin: 0;
+  color: #ec4899;
+}
+
+.goal-title p,
+.record-header p {
+  margin: 6px 0 0;
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+/* 目标输入 */
+.goal-inputs {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr auto;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid #fbcfe8;
+  border-radius: 18px;
+  font-size: 16px;
+  outline: none;
+  background: #fff7fb;
+  color: #4b5563;
+}
+
+input:focus,
+select:focus {
+  border-color: #f472b6;
+  background: white;
+  box-shadow: 0 0 0 4px rgba(244, 114, 182, 0.18);
+}
+
+button {
+  border: none;
+  border-radius: 18px;
+  padding: 14px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+/* 主要按钮 */
+.goal-inputs button,
+.add-btn {
+  background: linear-gradient(135deg, #fb7185, #f9a8d4);
+  color: white;
+  box-shadow: 0 8px 18px rgba(251, 113, 133, 0.3);
+}
+
+.goal-inputs button:hover,
+.add-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(251, 113, 133, 0.4);
+}
+
+/* 进度条 */
+.progress-area {
+  margin-top: 22px;
+}
+
+.progress-text {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #ec4899;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 18px;
+  background: #ffe4e6;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+#progressFill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #f9a8d4, #93c5fd, #86efac);
+  transition: 0.3s;
+}
+
+/* 主区域 */
+.main-grid {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 24px;
+}
+
+.form-box label {
+  display: block;
+  margin-top: 14px;
+  margin-bottom: 6px;
+  font-weight: bold;
+  color: #ec4899;
+}
+
+.add-btn {
+  width: 100%;
+  margin-top: 20px;
+}
+
+/* 交易记录 */
+.record-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.clear-btn {
+  background: #ffe4e6;
+  color: #fb7185;
+  padding: 10px 14px;
+}
+
+.clear-btn:hover {
+  background: #fecdd3;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0 0;
+}
+
+.record-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 16px;
+  margin-bottom: 12px;
+  background: #fff7fb;
+  border-radius: 22px;
+  border: 2px solid #fce7f3;
+  border-left: 8px solid #f9a8d4;
+}
+
+.record-item.income {
+  border-left-color: #86efac;
+}
+
+.record-item.expense {
+  border-left-color: #fda4af;
+}
+
+.record-main {
+  font-weight: bold;
+  font-size: 17px;
+  color: #4b5563;
+}
+
+.record-sub {
+  color: #9ca3af;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.money-income {
+  color: #10b981;
+}
+
+.money-expense {
+  color: #fb7185;
+}
+
+.delete-btn {
+  background: #fda4af;
+  color: white;
+  padding: 9px 12px;
+  font-size: 14px;
+  border-radius: 14px;
+}
+
+.delete-btn:hover {
+  background: #fb7185;
+  transform: scale(1.05);
+}
+
+.empty {
+  text-align: center;
+  padding: 30px;
+  color: #9ca3af;
+  background: #fff7fb;
+  border-radius: 22px;
+  border: 2px dashed #fbcfe8;
+}
+
+/* 手机版 */
+@media (max-width: 800px) {
+  .app {
+    width: 94%;
+    margin: 16px auto;
+  }
+
+  .header {
+    padding: 26px;
+  }
+
+  .header h1 {
+    font-size: 28px;
+  }
+
+  .header::after {
+    font-size: 42px;
+    right: 20px;
+    top: 20px;
+  }
+
+  .summary {
+    grid-template-columns: 1fr;
+  }
+
+  .goal-inputs {
+    grid-template-columns: 1fr;
+  }
+
+  .main-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .record-header {
+    align-items: flex-start;
+  }
+
+  .summary-card h2 {
+    font-size: 28px;
+  }
+}
