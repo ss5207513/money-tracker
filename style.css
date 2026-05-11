@@ -163,7 +163,7 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.78);
   border: 2px solid #f8d8e6;
   border-radius: 22px;
   padding: 8px;
@@ -208,7 +208,7 @@ body {
   width: 100%;
   max-width: 100%;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.94);
   border: 2px solid #f8d8e6;
   border-radius: 28px;
   padding: 20px;
@@ -268,14 +268,18 @@ body {
   box-shadow: 0 0 0 4px rgba(244, 139, 181, 0.12);
 }
 
-/* 日期 / 月份框框：手機穩定版 */
-.date-field-wrap,
-.month-field-wrap {
-  width: 100%;
-  max-width: 100%;
-  overflow: hidden;
+/* 日期 / 月份重新設計：手機 App 小卡風格 */
+.form-box label[for="date"],
+.filter-box label[for="monthFilter"] {
+  margin-top: 12px;
+  margin-bottom: 2px;
+  display: block;
+  color: #ff5fa2;
+  font-size: 15px;
+  font-weight: 900;
 }
 
+/* 日期和月份外觀統一，不再超出 */
 input[type="date"],
 input[type="month"] {
   appearance: none;
@@ -284,30 +288,33 @@ input[type="month"] {
   width: 100%;
   max-width: 100%;
   min-width: 0;
-  height: 52px;
-  min-height: 52px;
-  padding: 0 14px;
+  height: 56px;
+  min-height: 56px;
+  padding: 0 48px 0 18px;
   margin: 0;
-  border-radius: 17px;
+  border-radius: 20px;
   border: 2px solid #f3bfd5;
-  background-color: #fff8fc;
-  color: #5f6575;
-  font-size: 15px;
-  font-weight: 800;
-  line-height: 52px;
-  text-align: center;
-  overflow: hidden;
+  background:
+    linear-gradient(180deg, #fffafd 0%, #fff5fa 100%);
+  color: #4b5563;
+  font-size: 16px;
+  font-weight: 900;
+  line-height: 56px;
+  text-align: left;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 6px 16px rgba(244, 139, 181, 0.08);
 }
 
+/* iPhone / Chrome 日期文字修正 */
 input[type="date"]::-webkit-date-and-time-value,
 input[type="month"]::-webkit-date-and-time-value {
   display: block;
   width: 100%;
   max-width: 100%;
-  min-width: 0;
-  text-align: center;
-  color: #5f6575;
-  line-height: 52px;
+  text-align: left;
+  color: #4b5563;
+  line-height: 56px;
   padding: 0;
   margin: 0;
 }
@@ -327,9 +334,26 @@ input[type="month"]::-webkit-datetime-edit-fields-wrapper {
 
 input[type="date"]::-webkit-calendar-picker-indicator,
 input[type="month"]::-webkit-calendar-picker-indicator {
-  opacity: 0.65;
+  position: absolute;
+  right: 14px;
+  opacity: 0.7;
   cursor: pointer;
-  margin-left: 4px;
+  width: 22px;
+  height: 22px;
+}
+
+/* 月份選擇區改成乾淨卡片 */
+.filter-box {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  background: linear-gradient(180deg, #fffaff 0%, #fff4f9 100%);
+  border: 2px solid #f8d8e6;
+  border-radius: 22px;
+  padding: 16px;
+  margin-bottom: 12px;
+  display: grid;
+  gap: 10px;
 }
 
 /* 按鈕 */
@@ -429,19 +453,6 @@ input[type="month"]::-webkit-calendar-picker-indicator {
   padding: 11px 15px;
   border-radius: 18px;
   white-space: nowrap;
-}
-
-.filter-box {
-  width: 100%;
-  max-width: 100%;
-  overflow: hidden;
-  background: #fff4f9;
-  border: 2px solid #f8d8e6;
-  border-radius: 20px;
-  padding: 14px;
-  margin-bottom: 12px;
-  display: grid;
-  gap: 8px;
 }
 
 .month-summary {
@@ -766,7 +777,7 @@ input[type="month"]::-webkit-calendar-picker-indicator {
   line-height: 1.5;
 }
 
-/* 手機小螢幕再次收窄 */
+/* 小手機優化 */
 @media (max-width: 430px) {
   .container {
     padding-left: 12px;
@@ -783,23 +794,23 @@ input[type="month"]::-webkit-calendar-picker-indicator {
 
   input[type="date"],
   input[type="month"] {
-    height: 50px;
-    min-height: 50px;
-    line-height: 50px;
-    font-size: 14px;
-    border-radius: 16px;
-    padding-left: 12px;
-    padding-right: 12px;
+    height: 54px;
+    min-height: 54px;
+    line-height: 54px;
+    font-size: 15px;
+    border-radius: 18px;
+    padding-left: 16px;
+    padding-right: 46px;
   }
 
   input[type="date"]::-webkit-date-and-time-value,
   input[type="month"]::-webkit-date-and-time-value {
-    line-height: 50px;
-    font-size: 14px;
+    line-height: 54px;
+    font-size: 15px;
   }
 
   .filter-box {
-    padding: 12px;
+    padding: 14px;
   }
 }
 
