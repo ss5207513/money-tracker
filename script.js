@@ -20,10 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function bindEvents() {
-  document.getElementById("type").addEventListener("change", () => {
-    initCategoryOptions();
-  });
-
+  document.getElementById("type").addEventListener("change", initCategoryOptions);
   document.getElementById("addRecordBtn").addEventListener("click", addRecord);
   document.getElementById("saveGoalBtn").addEventListener("click", saveGoal);
   document.getElementById("clearBtn").addEventListener("click", clearAllRecords);
@@ -43,6 +40,7 @@ function bindEvents() {
   document.getElementById("nextPageBtn").addEventListener("click", () => {
     const filtered = getFilteredRecords();
     const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
+
     if (currentPage < totalPages) {
       currentPage++;
       renderRecords();
@@ -52,16 +50,8 @@ function bindEvents() {
 
 function initDefaultDate() {
   const today = new Date();
-  const dateInput = document.getElementById("date");
-  const monthFilter = document.getElementById("monthFilter");
-
-  if (dateInput) {
-    dateInput.value = toDateString(today);
-  }
-
-  if (monthFilter) {
-    monthFilter.value = toMonthString(today);
-  }
+  document.getElementById("date").value = toDateString(today);
+  document.getElementById("monthFilter").value = toMonthString(today);
 }
 
 function toDateString(date) {
@@ -104,6 +94,7 @@ function saveGoalToLocal(goal) {
 
 function loadGoal() {
   const savedGoal = localStorage.getItem(GOAL_KEY);
+
   if (!savedGoal) return;
 
   const goal = JSON.parse(savedGoal);
@@ -153,6 +144,7 @@ function addRecord() {
   };
 
   records.unshift(record);
+  currentPage = 1;
   saveRecords();
   clearForm();
   updateScreen();
@@ -172,7 +164,10 @@ function deleteRecord(id) {
 
   const filtered = getFilteredRecords();
   const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
-  if (currentPage > totalPages) currentPage = totalPages;
+
+  if (currentPage > totalPages) {
+    currentPage = totalPages;
+  }
 
   updateScreen();
 }
@@ -184,11 +179,12 @@ function clearAllRecords() {
   }
 
   const ok = confirm("確定要清空所有交易紀錄嗎？");
+
   if (!ok) return;
 
   records = [];
-  saveRecords();
   currentPage = 1;
+  saveRecords();
   updateScreen();
 }
 
@@ -253,6 +249,7 @@ function updateGoalUI() {
   }
 
   const progress = Math.max(0, Math.min(100, (balance / goal.amount) * 100));
+
   goalLabel.textContent = `${goal.name}：${formatMoney(balance)} / ${formatMoney(goal.amount)}`;
   goalPercent.textContent = `${progress.toFixed(0)}%`;
   goalProgressBar.style.width = `${progress}%`;
@@ -298,7 +295,10 @@ function renderRecords() {
   updateMonthSummary(filtered);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
-  if (currentPage > totalPages) currentPage = totalPages;
+
+  if (currentPage > totalPages) {
+    currentPage = totalPages;
+  }
 
   const start = (currentPage - 1) * pageSize;
   const currentRecords = filtered.slice(start, start + pageSize);
@@ -325,12 +325,16 @@ function renderRecords() {
               <div class="record-title">
                 <span class="record-dot ${dotClass}"></span>
                 <span>${typeText}｜${escapeHtml(record.category)}</span>
-                <span class="record-amount ${amountClass}">${sign}${formatMoney(record.amount)}</span>
+                <span class="record-amount ${amountClass}">
+                  ${sign}${formatMoney(record.amount)}
+                </span>
               </div>
+
               <div class="record-meta">
                 日期：${escapeHtml(record.date)} ｜ 備註：${escapeHtml(record.note)}
               </div>
             </div>
+
             <button class="delete-btn" data-id="${record.id}">刪除</button>
           </li>
         `;
@@ -344,6 +348,7 @@ function renderRecords() {
 
 function bindDeleteButtons() {
   const buttons = document.querySelectorAll(".delete-btn");
+
   buttons.forEach((btn) => {
     btn.addEventListener("click", () => {
       const id = Number(btn.getAttribute("data-id"));
@@ -359,6 +364,7 @@ function updatePagination(totalPages) {
   const paginationBox = document.getElementById("paginationBox");
 
   pageInfo.textContent = `第 ${currentPage} / ${totalPages} 頁`;
+
   prevBtn.disabled = currentPage <= 1;
   nextBtn.disabled = currentPage >= totalPages;
 
@@ -370,6 +376,7 @@ function updatePagination(totalPages) {
 }
 
 function initAvatarUpload() {
+  const avatarBtn = document.getElementById("avatarBtn");
   const avatarInput = document.getElementById("avatarInput");
   const avatarPreview = document.getElementById("avatarPreview");
   const avatarPlaceholder = document.getElementById("avatarPlaceholder");
@@ -382,20 +389,67 @@ function initAvatarUpload() {
     avatarPlaceholder.style.display = "none";
   }
 
+  avatarBtn.addEventListener("click", () => {
+    avatarInput.click();
+  });
+
   avatarInput.addEventListener("change", function (event) {
     const file = event.target.files[0];
+
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = function (e) {
-      const imageData = e.target.result;
+    if (!file.type.startsWith("image/")) {
+      alert("請選擇圖片檔案");
+      avatarInput.value = "";
+      return;
+    }
+
+    resizeImage(file, 300, 300, function (imageData) {
       avatarPreview.src = imageData;
       avatarPreview.style.display = "block";
       avatarPlaceholder.style.display = "none";
-      localStorage.setItem(AVATAR_KEY, imageData);
-    };
-    reader.readAsDataURL(file);
+
+      try {
+        localStorage.setItem(AVATAR_KEY, imageData);
+      } catch (error) {
+        alert("圖片太大，請換一張較小的圖片");
+      }
+
+      avatarInput.value = "";
+    });
   });
+}
+
+function resizeImage(file, maxWidth, maxHeight, callback) {
+  const reader = new FileReader();
+
+  reader.onload = function (event) {
+    const img = new Image();
+
+    img.onload = function () {
+      let width = img.width;
+      let height = img.height;
+
+      const ratio = Math.min(maxWidth / width, maxHeight / height, 1);
+
+      width = Math.round(width * ratio);
+      height = Math.round(height * ratio);
+
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, width, height);
+
+      const imageData = canvas.toDataURL("image/jpeg", 0.8);
+      callback(imageData);
+    };
+
+    img.src = event.target.result;
+  };
+
+  reader.readAsDataURL(file);
 }
 
 function updateScreen() {

@@ -6,9 +6,9 @@
   <title>簡單記帳 Cute Money Book</title>
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
   <div class="container">
-    <!-- 頂部 -->
     <header class="hero">
       <div class="hero-left">
         <p class="mini-title">My Cute Money Book</p>
@@ -18,16 +18,16 @@
 
       <div class="hero-right">
         <div class="avatar-upload">
-          <input type="file" id="avatarInput" accept="image/*" hidden />
-          <label for="avatarInput" class="avatar-box" title="點我上傳大頭貼">
+          <input type="file" id="avatarInput" accept="image/*" />
+          <button type="button" id="avatarBtn" class="avatar-box" title="點我上傳大頭貼">
             <img id="avatarPreview" src="" alt="大頭貼" />
             <span id="avatarPlaceholder">🐷</span>
-          </label>
+          </button>
+          <p class="avatar-tip">點擊更換</p>
         </div>
       </div>
     </header>
 
-    <!-- 總覽 -->
     <section class="cards">
       <div class="card income-card">
         <p>總收入</p>
@@ -45,7 +45,6 @@
       </div>
     </section>
 
-    <!-- 存錢目標 -->
     <section class="goal-box">
       <div class="section-title">
         <h2>存錢目標</h2>
@@ -55,7 +54,7 @@
       <div class="goal-form">
         <input type="text" id="goalName" placeholder="目標名稱，例如：買手機、旅行基金" />
         <input type="number" id="goalAmount" placeholder="目標金額，例如：30000" />
-        <button id="saveGoalBtn">儲存目標</button>
+        <button type="button" id="saveGoalBtn">儲存目標</button>
       </div>
 
       <div class="goal-status">
@@ -63,15 +62,14 @@
           <span id="goalLabel">尚未設定目標</span>
           <span id="goalPercent">0%</span>
         </div>
+
         <div class="progress-bar">
           <div id="goalProgressBar" class="progress-fill"></div>
         </div>
       </div>
     </section>
 
-    <!-- 主要內容 -->
     <section class="main-grid">
-      <!-- 左側：新增紀錄 -->
       <div class="form-box">
         <h2>新增紀錄</h2>
 
@@ -93,17 +91,17 @@
         <label for="note">備註</label>
         <input type="text" id="note" placeholder="例如：午餐、打工收入、飲料" />
 
-        <button id="addRecordBtn" class="main-btn">新增這一筆</button>
+        <button type="button" id="addRecordBtn" class="main-btn">新增這一筆</button>
       </div>
 
-      <!-- 右側：交易紀錄 -->
       <div class="record-box">
         <div class="record-header">
           <div>
             <h2>📒 交易紀錄</h2>
             <p>最近新增的紀錄會顯示在最上方</p>
           </div>
-          <button id="clearBtn" class="clear-btn">清空</button>
+
+          <button type="button" id="clearBtn" class="clear-btn">清空</button>
         </div>
 
         <div class="filter-box">
@@ -116,6 +114,7 @@
             <span>當月總收入</span>
             <strong id="monthIncome">$0</strong>
           </div>
+
           <div class="summary-row expense-row">
             <span>當月總支出</span>
             <strong id="monthExpense">$0</strong>
@@ -125,9 +124,9 @@
         <ul id="recordList" class="record-list"></ul>
 
         <div class="pagination" id="paginationBox">
-          <button id="prevPageBtn" class="page-btn">上一頁</button>
+          <button type="button" id="prevPageBtn" class="page-btn">上一頁</button>
           <span id="pageInfo">第 1 / 1 頁</span>
-          <button id="nextPageBtn" class="page-btn">下一頁</button>
+          <button type="button" id="nextPageBtn" class="page-btn">下一頁</button>
         </div>
       </div>
     </section>
