@@ -3,207 +3,136 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>簡單記帳 Cute 版</title>
-
+  <title>簡單記帳 Cute Money Book</title>
   <link rel="stylesheet" href="style.css" />
-
-  <!-- QR Code 掃描套件 -->
-  <script src="https://unpkg.com/html5-qrcode" defer></script>
-
-  <!-- 自己的 JS -->
-  <script src="script.js" defer></script>
 </head>
-
 <body>
-  <div class="app">
-
+  <div class="container">
     <!-- 頂部 -->
-    <header class="top-bar">
-      <div>
-        <p class="small-title">My Cute Money Book</p>
+    <header class="hero">
+      <div class="hero-left">
+        <p class="mini-title">My Cute Money Book</p>
         <h1>簡單記帳</h1>
-        <p class="top-desc">輕鬆記錄收入與支出，讓存錢變得更可愛 ♡</p>
+        <p class="hero-subtitle">輕鬆記錄收入與支出，讓存錢變得更可愛 ♡</p>
       </div>
 
-      <div class="top-icon">🐷</div>
+      <div class="hero-right">
+        <div class="avatar-upload">
+          <input type="file" id="avatarInput" accept="image/*" hidden />
+          <label for="avatarInput" class="avatar-box" title="點我上傳大頭貼">
+            <img id="avatarPreview" src="" alt="大頭貼" />
+            <span id="avatarPlaceholder">🐷</span>
+          </label>
+        </div>
+      </div>
     </header>
 
-    <!-- 存款總覽 -->
-    <section class="balance-card">
-      <p class="balance-label">目前存款</p>
-      <h2 id="balance">$0</h2>
+    <!-- 總覽 -->
+    <section class="cards">
+      <div class="card income-card">
+        <p>總收入</p>
+        <h2 id="totalIncome">$0</h2>
+      </div>
 
-      <div class="balance-row">
-        <div class="mini-card income-card">
-          <span>總收入</span>
-          <strong id="totalIncome">$0</strong>
-        </div>
+      <div class="card expense-card">
+        <p>總支出</p>
+        <h2 id="totalExpense">$0</h2>
+      </div>
 
-        <div class="mini-card expense-card">
-          <span>總支出</span>
-          <strong id="totalExpense">$0</strong>
-        </div>
+      <div class="card balance-card">
+        <p>目前存款</p>
+        <h2 id="balance">$0</h2>
       </div>
     </section>
 
     <!-- 存錢目標 -->
-    <section class="goal-card">
-      <div class="card-head">
-        <h2>🎯 存錢目標</h2>
-        <span id="progressPercent">0%</span>
+    <section class="goal-box">
+      <div class="section-title">
+        <h2>存錢目標</h2>
+        <p>設定你想存到的金額</p>
       </div>
 
-      <div class="goal-inputs">
-        <input
-          type="text"
-          id="goalName"
-          placeholder="目標名稱，例如：買手機、旅行基金"
-        />
-
-        <input
-          type="number"
-          id="goalAmount"
-          placeholder="目標金額，例如：30000"
-        />
-
-        <button type="button" id="saveGoalBtn">儲存目標</button>
+      <div class="goal-form">
+        <input type="text" id="goalName" placeholder="目標名稱，例如：買手機、旅行基金" />
+        <input type="number" id="goalAmount" placeholder="目標金額，例如：30000" />
+        <button id="saveGoalBtn">儲存目標</button>
       </div>
 
-      <p id="goalText" class="goal-text">尚未設定目標</p>
-
-      <div class="progress-bar">
-        <div id="progressFill"></div>
+      <div class="goal-status">
+        <div class="goal-text-row">
+          <span id="goalLabel">尚未設定目標</span>
+          <span id="goalPercent">0%</span>
+        </div>
+        <div class="progress-bar">
+          <div id="goalProgressBar" class="progress-fill"></div>
+        </div>
       </div>
     </section>
 
-    <!-- 新增紀錄 -->
-    <section class="add-card">
-      <div class="card-head">
-        <h2>📝 新增紀錄</h2>
-      </div>
+    <!-- 主要內容 -->
+    <section class="main-grid">
+      <!-- 左側：新增紀錄 -->
+      <div class="form-box">
+        <h2>新增紀錄</h2>
 
-      <div class="type-row">
+        <label for="type">類型</label>
         <select id="type">
           <option value="income">收入</option>
           <option value="expense">支出</option>
         </select>
 
-        <select id="category">
-          <option value="薪水">薪水</option>
-          <option value="零用錢">零用錢</option>
-          <option value="獎金">獎金</option>
-          <option value="餐飲">餐飲</option>
-          <option value="交通">交通</option>
-          <option value="購物">購物</option>
-          <option value="娛樂">娛樂</option>
-          <option value="學習">學習</option>
-          <option value="生活">生活</option>
-          <option value="其他">其他</option>
-        </select>
+        <label for="category">分類</label>
+        <select id="category"></select>
+
+        <label for="amount">金額</label>
+        <input type="number" id="amount" placeholder="例如：1200" />
+
+        <label for="date">日期</label>
+        <input type="date" id="date" />
+
+        <label for="note">備註</label>
+        <input type="text" id="note" placeholder="例如：午餐、打工收入、飲料" />
+
+        <button id="addRecordBtn" class="main-btn">新增這一筆</button>
       </div>
 
-      <input
-        type="number"
-        id="amount"
-        placeholder="輸入金額，例如：120"
-      />
-
-      <input
-        type="date"
-        id="date"
-      />
-
-      <input
-        type="text"
-        id="note"
-        placeholder="備註，例如：午餐、打工收入、飲料"
-      />
-
-      <button type="button" class="add-btn" id="addRecordBtn">
-        新增這一筆
-      </button>
-    </section>
-
-    <!-- 交易紀錄 -->
-    <section class="record-card">
-      <div class="record-header">
-        <div>
-          <h2>📒 交易紀錄</h2>
-          <p>最近新增的紀錄會顯示在最上方</p>
+      <!-- 右側：交易紀錄 -->
+      <div class="record-box">
+        <div class="record-header">
+          <div>
+            <h2>📒 交易紀錄</h2>
+            <p>最近新增的紀錄會顯示在最上方</p>
+          </div>
+          <button id="clearBtn" class="clear-btn">清空</button>
         </div>
 
-        <button type="button" class="clear-btn" id="clearRecordsBtn">
-          清空
-        </button>
-      </div>
+        <div class="filter-box">
+          <label for="monthFilter">選擇月份</label>
+          <input type="month" id="monthFilter" />
+        </div>
 
-      <ul id="recordList"></ul>
-    </section>
+        <div class="month-summary">
+          <div class="summary-row income-row">
+            <span>當月總收入</span>
+            <strong id="monthIncome">$0</strong>
+          </div>
+          <div class="summary-row expense-row">
+            <span>當月總支出</span>
+            <strong id="monthExpense">$0</strong>
+          </div>
+        </div>
 
-    <!-- 發票載具 -->
-    <section class="invoice-card">
-      <div class="record-header">
-        <div>
-          <h2>🧾 發票載具</h2>
-          <p>儲存載具號碼，並掃描或上傳發票 QR Code</p>
+        <ul id="recordList" class="record-list"></ul>
+
+        <div class="pagination" id="paginationBox">
+          <button id="prevPageBtn" class="page-btn">上一頁</button>
+          <span id="pageInfo">第 1 / 1 頁</span>
+          <button id="nextPageBtn" class="page-btn">下一頁</button>
         </div>
       </div>
-
-      <div class="carrier-box">
-        <label for="carrierNumber">載具號碼</label>
-
-        <input
-          type="text"
-          id="carrierNumber"
-          placeholder="例如：/CL76CK"
-        />
-
-        <button type="button" class="carrier-btn" id="saveCarrierBtn">
-          儲存載具
-        </button>
-
-        <p class="carrier-now">
-          目前載具：<span id="currentCarrier">尚未設定</span>
-        </p>
-      </div>
-
-      <div class="scan-box">
-        <button type="button" class="scan-btn" id="startScanBtn">
-          開啟相機掃描 QR Code
-        </button>
-
-        <button type="button" class="stop-btn" id="stopScanBtn">
-          停止掃描
-        </button>
-
-        <!-- QR Code 掃描畫面 -->
-        <div id="scannerArea"></div>
-
-        <label class="upload-label">
-          上傳發票圖片掃描
-          <input
-            type="file"
-            id="invoiceImage"
-            accept="image/*"
-          />
-        </label>
-      </div>
-
-      <div class="invoice-list-box">
-        <h3>已掃描發票</h3>
-        <ul id="invoiceList"></ul>
-      </div>
     </section>
-
-    <!-- 底部導覽 -->
-    <nav class="bottom-nav">
-      <div class="nav-item active">首頁</div>
-      <div class="nav-item">記帳</div>
-      <div class="nav-item">發票</div>
-      <div class="nav-item">設定</div>
-    </nav>
-
   </div>
+
+  <script src="script.js"></script>
 </body>
 </html>

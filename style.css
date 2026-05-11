@@ -1,584 +1,447 @@
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  margin: 0;
-  font-family: "Microsoft JhengHei", "Noto Sans TC", Arial, sans-serif;
-  background:
-    radial-gradient(circle at top left, #ffe4f3 0, transparent 34%),
-    radial-gradient(circle at top right, #dbeafe 0, transparent 34%),
-    linear-gradient(180deg, #fffafc 0%, #fdf2f8 48%, #fefce8 100%);
-  color: #374151;
-}
-
-.app {
-  width: 100%;
-  max-width: 480px;
+  font-family: "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  background: linear-gradient(90deg, #fff4e8 0%, #eef8ff 100%);
+  color: #5f6575;
   min-height: 100vh;
-  margin: 0 auto;
-  padding: 18px 16px 105px;
 }
 
-/* =========================
-   頂部
-========================= */
+.container {
+  width: min(1100px, 92%);
+  margin: 24px auto 50px;
+}
 
-.top-bar {
+.hero {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 24px;
+  padding: 28px;
+  border-radius: 28px;
+  background: linear-gradient(135deg, #f7a8c7 0%, #b4b7ff 100%);
+  color: #fff;
+  box-shadow: 0 12px 30px rgba(244, 114, 182, 0.18);
+  margin-bottom: 20px;
+}
+
+.mini-title {
+  font-size: 14px;
+  opacity: 0.95;
+  margin-bottom: 10px;
+}
+
+.hero h1 {
+  font-size: 42px;
+  margin-bottom: 8px;
+}
+
+.hero-subtitle {
+  font-size: 16px;
+  opacity: 0.95;
+}
+
+.avatar-upload {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-box {
+  width: 76px;
+  height: 76px;
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: 0 10px 24px rgba(244, 114, 182, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  border: 3px solid rgba(255, 255, 255, 0.9);
+  transition: transform 0.2s ease;
+}
+
+.avatar-box:hover {
+  transform: scale(1.03);
+}
+
+#avatarPreview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+}
+
+#avatarPlaceholder {
+  font-size: 34px;
+  display: block;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
   margin-bottom: 18px;
 }
 
-.small-title {
-  margin: 0;
-  color: #f472b6;
-  font-size: 13px;
+.card {
+  background: rgba(255, 255, 255, 0.82);
+  border: 2px solid #f8d8e6;
+  border-radius: 24px;
+  padding: 22px;
+  box-shadow: 0 10px 24px rgba(221, 183, 216, 0.12);
+}
+
+.card p {
+  font-size: 15px;
+  margin-bottom: 10px;
+  color: #8e92a2;
+}
+
+.card h2 {
+  font-size: 38px;
   font-weight: 800;
 }
 
-.top-bar h1 {
-  margin: 4px 0;
-  font-size: 30px;
-  font-weight: 900;
-  color: #ec4899;
-  letter-spacing: 1px;
+.income-card h2 {
+  color: #18b566;
 }
 
-.top-desc {
-  margin: 0;
-  font-size: 14px;
-  color: #9ca3af;
-}
-
-.top-icon {
-  width: 56px;
-  height: 56px;
-  border-radius: 20px;
-  display: grid;
-  place-items: center;
-  background: white;
-  font-size: 30px;
-  box-shadow: 0 10px 24px rgba(244, 114, 182, 0.18);
-}
-
-/* =========================
-   目前存款卡片
-========================= */
-
-.balance-card {
-  background: linear-gradient(135deg, #fb7185, #f9a8d4, #c4b5fd);
-  color: white;
-  border-radius: 30px;
-  padding: 24px;
-  margin-bottom: 16px;
-  box-shadow: 0 16px 32px rgba(244, 114, 182, 0.3);
-  position: relative;
-  overflow: hidden;
-}
-
-.balance-card::after {
-  content: "♡";
-  position: absolute;
-  right: 22px;
-  top: 14px;
-  font-size: 54px;
-  opacity: 0.18;
-  font-weight: 900;
-}
-
-.balance-label {
-  margin: 0;
-  font-size: 15px;
-  opacity: 0.95;
-  font-weight: 700;
+.expense-card h2 {
+  color: #ff667a;
 }
 
 .balance-card h2 {
-  margin: 8px 0 18px;
-  font-size: 42px;
-  font-weight: 900;
+  color: #5294ff;
 }
 
-.balance-row {
+.goal-box,
+.form-box,
+.record-box {
+  background: rgba(255, 255, 255, 0.85);
+  border: 2px solid #f8d8e6;
+  border-radius: 28px;
+  padding: 24px;
+  box-shadow: 0 10px 24px rgba(221, 183, 216, 0.1);
+}
+
+.goal-box {
+  margin-bottom: 18px;
+}
+
+.section-title h2,
+.form-box h2,
+.record-header h2 {
+  color: #ff5fa2;
+  font-size: 32px;
+  margin-bottom: 6px;
+}
+
+.section-title p,
+.record-header p {
+  color: #9aa0b0;
+  font-size: 14px;
+}
+
+.goal-form {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1.4fr 1fr auto;
   gap: 12px;
+  margin: 18px 0 16px;
 }
 
-.mini-card {
-  padding: 14px;
+.goal-form input,
+.form-box input,
+.form-box select,
+.filter-box input {
+  width: 100%;
+  padding: 16px 18px;
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.22);
-  backdrop-filter: blur(8px);
+  border: 2px solid #f3bfd5;
+  background: #fff8fc;
+  font-size: 16px;
+  outline: none;
+  color: #5f6575;
 }
 
-.mini-card span {
-  display: block;
-  font-size: 13px;
+.goal-form input:focus,
+.form-box input:focus,
+.form-box select:focus,
+.filter-box input:focus {
+  border-color: #f48bb5;
+  background: #fff;
+}
+
+.goal-form button,
+.main-btn,
+.clear-btn,
+.page-btn {
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.goal-form button,
+.main-btn {
+  background: linear-gradient(90deg, #f26f86 0%, #eca0db 100%);
+  color: #fff;
+  font-weight: 700;
+  padding: 16px 24px;
+  border-radius: 18px;
+  box-shadow: 0 8px 20px rgba(242, 111, 134, 0.22);
+}
+
+.goal-form button:hover,
+.main-btn:hover,
+.clear-btn:hover,
+.page-btn:hover {
+  transform: translateY(-1px);
   opacity: 0.95;
 }
 
-.mini-card strong {
-  display: block;
-  margin-top: 6px;
-  font-size: 21px;
+.goal-status {
+  margin-top: 8px;
 }
 
-/* =========================
-   共用卡片
-========================= */
-
-.goal-card,
-.add-card,
-.record-card,
-.invoice-card {
-  background: rgba(255, 255, 255, 0.96);
-  border-radius: 26px;
-  padding: 20px;
-  margin-bottom: 16px;
-  box-shadow: 0 12px 26px rgba(15, 23, 42, 0.07);
-  border: 2px solid rgba(255, 255, 255, 0.9);
-}
-
-.card-head,
-.record-header {
+.goal-text-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.card-head h2,
-.record-header h2 {
-  margin: 0;
-  font-size: 22px;
-  font-weight: 900;
-  color: #ec4899;
-}
-
-.record-header p {
-  margin: 5px 0 0;
-  color: #9ca3af;
-  font-size: 13px;
-}
-
-/* =========================
-   存錢目標
-========================= */
-
-.goal-inputs {
-  display: grid;
-  gap: 10px;
-  margin-top: 14px;
-}
-
-.goal-text {
-  margin: 14px 0 8px;
-  color: #6b7280;
-  font-size: 14px;
-  font-weight: 600;
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #ff5fa2;
+  font-weight: 700;
 }
 
 .progress-bar {
   width: 100%;
-  height: 13px;
-  background: #fce7f3;
+  height: 16px;
   border-radius: 999px;
+  background: #f7dbe6;
   overflow: hidden;
 }
 
-#progressFill {
-  width: 0%;
+.progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #fb7185, #f9a8d4, #93c5fd);
+  width: 0%;
+  background: linear-gradient(90deg, #f26f86 0%, #f5c0de 100%);
   border-radius: 999px;
-  transition: 0.3s;
+  transition: width 0.3s ease;
 }
 
-/* =========================
-   表單
-========================= */
-
-.type-row {
+.main-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 350px 1fr;
+  gap: 18px;
+}
+
+.form-box {
+  display: flex;
+  flex-direction: column;
   gap: 10px;
-  margin-top: 14px;
 }
 
-input,
-select {
-  width: 100%;
-  margin-top: 10px;
-  padding: 15px 16px;
-  border: 2px solid #fbcfe8;
-  border-radius: 18px;
-  background: #fffafc;
-  color: #374151;
-  font-size: 16px;
-  outline: none;
-  transition: 0.2s;
+.form-box label,
+.filter-box label {
+  color: #ff5fa2;
+  font-weight: 700;
+  margin-top: 6px;
 }
 
-input::placeholder {
-  color: #b6b6c6;
-}
-
-input:focus,
-select:focus {
-  border-color: #f472b6;
-  background: #ffffff;
-  box-shadow: 0 0 0 4px rgba(244, 114, 182, 0.13);
-}
-
-button {
-  border: none;
-  cursor: pointer;
-  font-weight: 900;
-  border-radius: 18px;
-  transition: 0.2s;
-}
-
-.goal-inputs button,
-.add-btn,
-.carrier-btn,
-.scan-btn {
-  width: 100%;
-  margin-top: 14px;
-  padding: 16px;
-  font-size: 16px;
-  color: white;
-  background: linear-gradient(135deg, #fb7185, #f9a8d4);
-  box-shadow: 0 12px 22px rgba(244, 114, 182, 0.24);
-}
-
-.goal-inputs button:hover,
-.add-btn:hover,
-.carrier-btn:hover,
-.scan-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 14px 26px rgba(244, 114, 182, 0.3);
-}
-
-.stop-btn {
-  width: 100%;
-  margin-top: 12px;
-  padding: 15px;
-  font-size: 16px;
-  color: #ec4899;
-  background: #fce7f3;
-}
-
-.stop-btn:hover {
-  background: #fbcfe8;
+.record-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 14px;
 }
 
 .clear-btn {
-  padding: 10px 14px;
-  background: #fce7f3;
-  color: #ec4899;
-  font-size: 14px;
+  background: #f9dbe6;
+  color: #ff5fa2;
+  font-weight: 700;
+  padding: 12px 18px;
+  border-radius: 18px;
 }
 
-.clear-btn:hover {
-  background: #fbcfe8;
+.filter-box {
+  background: #fff4f9;
+  border: 2px solid #f8d8e6;
+  border-radius: 20px;
+  padding: 14px;
+  margin-bottom: 14px;
 }
 
-/* =========================
-   交易紀錄
-========================= */
+.month-summary {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 14px;
+}
 
-ul {
+.summary-row {
+  border-radius: 18px;
+  padding: 16px 18px;
+  border: 2px solid #f8d8e6;
+  background: #fff7fb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+}
+
+.summary-row strong {
+  font-size: 34px;
+}
+
+.income-row strong {
+  color: #18b566;
+}
+
+.expense-row strong {
+  color: #ff667a;
+}
+
+.record-list {
   list-style: none;
-  padding: 0;
-  margin: 18px 0 0;
+  display: grid;
+  gap: 14px;
 }
 
 .record-item {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 12px;
+  background: #fff8fc;
+  border: 2px solid #f6d8e4;
+  border-radius: 24px;
+  padding: 18px 18px 18px 20px;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  background: #fffafc;
-  border: 2px solid #fce7f3;
-  border-left: 8px solid #f9a8d4;
-  border-radius: 20px;
-  padding: 16px;
-  margin-bottom: 12px;
-  box-shadow: 0 8px 18px rgba(244, 114, 182, 0.08);
+  gap: 14px;
+  position: relative;
 }
 
 .record-item.income {
-  border-left-color: #86efac;
+  border-left: 8px solid #79e39d;
 }
 
 .record-item.expense {
-  border-left-color: #fda4af;
+  border-left: 8px solid #ff9aa8;
 }
 
-.record-main {
-  font-size: 16px;
-  font-weight: 900;
-  color: #374151;
+.record-left {
+  flex: 1;
 }
 
-.record-sub {
-  margin-top: 6px;
-  color: #9ca3af;
-  font-size: 13px;
-  line-height: 1.5;
+.record-title {
+  font-size: 18px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #4d5566;
+  margin-bottom: 8px;
 }
 
-.money-income {
-  color: #22c55e;
-}
-
-.money-expense {
-  color: #fb7185;
-}
-
-.delete-btn,
-.invoice-delete-btn {
-  padding: 10px 12px;
-  background: #fda4af;
-  color: white;
-  font-size: 14px;
-  border-radius: 14px;
-}
-
-.delete-btn:hover,
-.invoice-delete-btn:hover {
-  background: #fb7185;
-}
-
-.empty {
-  text-align: center;
-  padding: 28px 16px;
-  color: #9ca3af;
-  background: #fffafc;
-  border: 2px dashed #fbcfe8;
-  border-radius: 20px;
-}
-
-/* =========================
-   發票載具
-========================= */
-
-.carrier-box {
-  margin-top: 16px;
-}
-
-.carrier-box label {
-  display: block;
-  font-weight: 900;
-  color: #ec4899;
-  margin-bottom: 6px;
-}
-
-.carrier-now {
-  margin: 12px 0 0;
-  color: #6b7280;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.carrier-now span {
-  color: #ec4899;
-  font-weight: 900;
-}
-
-.scan-box {
-  margin-top: 18px;
-}
-
-#scannerArea {
-  display: none;
-  width: 100%;
-  margin-top: 14px;
-  border-radius: 20px;
-  overflow: hidden;
-  background: #111827;
-  border: 3px solid #fbcfe8;
-}
-
-#scannerArea video {
-  width: 100% !important;
-  border-radius: 18px;
-}
-
-.upload-label {
-  display: block;
-  text-align: center;
-  margin-top: 12px;
-  padding: 15px;
-  border-radius: 18px;
-  background: #fffafc;
-  border: 2px dashed #f9a8d4;
-  color: #ec4899;
-  font-weight: 900;
-  cursor: pointer;
-}
-
-.upload-label:hover {
-  background: #fdf2f8;
-}
-
-.upload-label input {
-  display: none;
-}
-
-.invoice-list-box {
-  margin-top: 18px;
-}
-
-.invoice-list-box h3 {
-  margin: 0 0 12px;
-  color: #ec4899;
-  font-size: 19px;
-  font-weight: 900;
-}
-
-/* =========================
-   發票卡片：可展開明細
-========================= */
-
-.invoice-item {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 12px;
-  align-items: start;
-  background: linear-gradient(180deg, #fffafc, #fff7fb);
-  border: 2px solid #fce7f3;
-  border-left: 8px solid #f9a8d4;
-  border-radius: 22px;
-  padding: 16px;
-  margin-bottom: 14px;
-  box-shadow: 0 10px 22px rgba(244, 114, 182, 0.1);
-}
-
-.invoice-main {
-  font-size: 16px;
-  font-weight: 900;
-  color: #374151;
-  word-break: break-all;
-}
-
-.invoice-toggle {
-  cursor: pointer;
+.record-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
   display: inline-block;
-  padding: 2px 0;
+  border: 2px solid #222;
 }
 
-.invoice-toggle:hover {
-  color: #ec4899;
+.record-dot.income {
+  background: #1ed330;
 }
 
-.invoice-sub {
-  margin-top: 7px;
-  color: #9ca3af;
-  font-size: 13px;
-  line-height: 1.65;
+.record-dot.expense {
+  background: #ff2a39;
 }
 
-.invoice-detail {
-  margin-top: 14px;
+.record-amount.income {
+  color: #18b566;
 }
 
-.invoice-detail-box {
-  background: #fff7fb;
-  border: 2px dashed #f9a8d4;
-  border-radius: 18px;
-  padding: 14px;
-  color: #374151;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+.record-amount.expense {
+  color: #ff667a;
 }
 
-.invoice-detail-box p {
-  margin: 6px 0;
+.record-meta {
   font-size: 14px;
-  line-height: 1.5;
+  color: #8d92a1;
+  line-height: 1.6;
 }
 
-.invoice-detail-box strong {
-  color: #ec4899;
-}
-
-.invoice-detail-box hr {
+.delete-btn {
   border: none;
-  border-top: 1px solid #fbcfe8;
-  margin: 12px 0;
+  background: #f29aaa;
+  color: #fff;
+  font-weight: 700;
+  padding: 12px 18px;
+  border-radius: 18px;
+  cursor: pointer;
 }
 
-.invoice-product {
-  background: white;
-  border-radius: 14px;
-  padding: 11px;
-  margin-top: 9px;
-  border: 1px solid #fce7f3;
-  box-shadow: 0 5px 12px rgba(244, 114, 182, 0.08);
-}
-
-.invoice-product strong {
-  display: block;
-  color: #ec4899;
-  margin-bottom: 5px;
-  font-size: 14px;
-}
-
-.invoice-product span {
-  display: block;
-  font-size: 13px;
-  color: #6b7280;
-  line-height: 1.5;
-}
-
-/* =========================
-   底部導覽
-========================= */
-
-.bottom-nav {
-  position: fixed;
-  left: 50%;
-  bottom: 14px;
-  transform: translateX(-50%);
-  width: calc(100% - 32px);
-  max-width: 448px;
-  background: rgba(255, 255, 255, 0.96);
-  border-radius: 24px;
-  padding: 12px 8px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.14);
-  z-index: 20;
-}
-
-.nav-item {
+.empty-box {
+  border: 2px dashed #f2bcd2;
+  border-radius: 22px;
+  padding: 30px;
   text-align: center;
-  font-size: 13px;
-  font-weight: 900;
-  color: #9ca3af;
+  color: #9da3b1;
+  background: #fff8fc;
 }
 
-.nav-item.active {
-  color: #ec4899;
+.pagination {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
-/* =========================
-   桌機版
-========================= */
+.page-btn {
+  background: #f9dbe6;
+  color: #ff5fa2;
+  font-weight: 700;
+  padding: 10px 16px;
+  border-radius: 16px;
+}
 
-@media (min-width: 700px) {
-  body {
-    background:
-      radial-gradient(circle at top left, #ffe4f3 0, transparent 32%),
-      radial-gradient(circle at top right, #dbeafe 0, transparent 32%),
-      linear-gradient(135deg, #fdf2f8, #fff7ed, #eff6ff);
+#pageInfo {
+  font-weight: 700;
+  color: #8d92a1;
+}
+
+@media (max-width: 900px) {
+  .cards {
+    grid-template-columns: 1fr;
   }
 
-  .app {
-    margin-top: 22px;
-    margin-bottom: 22px;
-    border-radius: 32px;
+  .goal-form {
+    grid-template-columns: 1fr;
+  }
+
+  .main-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hero h1 {
+    font-size: 34px;
+  }
+
+  .card h2,
+  .summary-row strong {
+    font-size: 28px;
   }
 }
