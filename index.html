@@ -8,10 +8,7 @@
 
   <link rel="stylesheet" href="style.css" />
 
-  <!-- QR Code 掃描套件 -->
   <script src="https://unpkg.com/html5-qrcode" defer></script>
-
-  <!-- 自己的程式 -->
   <script src="script.js" defer></script>
 </head>
 
@@ -29,7 +26,7 @@
       <div class="hero-right">
         <div class="avatar-upload">
           <input type="file" id="avatarInput" accept="image/*" />
-          <button type="button" id="avatarBtn" class="avatar-box" title="點我上傳大頭貼">
+          <button type="button" id="avatarBtn" class="avatar-box">
             <img id="avatarPreview" src="" alt="大頭貼" />
             <span id="avatarPlaceholder">🐷</span>
           </button>
@@ -109,7 +106,52 @@
         <select id="category"></select>
 
         <label for="amount">金額</label>
-        <input type="number" id="amount" placeholder="例如：1200" />
+
+        <div class="amount-row">
+          <input type="number" id="amount" placeholder="例如：1200" />
+
+          <button type="button" id="openCalculatorBtn" class="calc-open-btn">
+            <span class="calc-face">ฅ</span>
+            <span class="calc-icon">🧮</span>
+          </button>
+        </div>
+
+        <div id="calculatorBox" class="calculator-box">
+          <div class="calculator-header">
+            <strong>計算機</strong>
+            <button type="button" id="closeCalculatorBtn">×</button>
+          </div>
+
+          <input type="text" id="calcDisplay" readonly placeholder="0" />
+
+          <div class="calc-grid">
+            <button type="button" data-calc="7">7</button>
+            <button type="button" data-calc="8">8</button>
+            <button type="button" data-calc="9">9</button>
+            <button type="button" data-calc="/">÷</button>
+
+            <button type="button" data-calc="4">4</button>
+            <button type="button" data-calc="5">5</button>
+            <button type="button" data-calc="6">6</button>
+            <button type="button" data-calc="*">×</button>
+
+            <button type="button" data-calc="1">1</button>
+            <button type="button" data-calc="2">2</button>
+            <button type="button" data-calc="3">3</button>
+            <button type="button" data-calc="-">−</button>
+
+            <button type="button" data-calc="0">0</button>
+            <button type="button" data-calc=".">.</button>
+            <button type="button" id="calcEqualBtn">=</button>
+            <button type="button" data-calc="+">+</button>
+          </div>
+
+          <div class="calc-actions">
+            <button type="button" id="calcClearBtn" class="soft-btn">清除</button>
+            <button type="button" id="calcBackBtn" class="soft-btn">倒退</button>
+            <button type="button" id="useCalcAmountBtn" class="main-btn">帶入金額</button>
+          </div>
+        </div>
 
         <label for="date">日期</label>
         <input type="date" id="date" />
@@ -117,7 +159,9 @@
         <label for="note">備註</label>
         <input type="text" id="note" placeholder="例如：午餐、打工收入、飲料" />
 
-        <button type="button" id="addRecordBtn" class="main-btn">新增這一筆</button>
+        <button type="button" id="addRecordBtn" class="main-btn">
+          新增這一筆
+        </button>
       </section>
 
       <!-- 交易紀錄 -->
@@ -160,7 +204,6 @@
 
     <!-- 發票載具分類 -->
     <section id="invoiceSection" class="tab-section">
-
       <section class="invoice-box">
         <div class="record-header">
           <div>
@@ -204,7 +247,6 @@
           <ul id="invoiceList" class="invoice-list"></ul>
         </div>
       </section>
-
     </section>
 
   </div>
